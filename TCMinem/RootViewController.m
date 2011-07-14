@@ -7,6 +7,7 @@
 //
 
 #import "RootViewController.h"
+#import "TCMXMLWriter.h"
 
 @implementation RootViewController
 
@@ -23,6 +24,22 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+	TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:NULL];
+	[writer instruct:@"xml" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"1.0",@"version",@"UTF-8",@"encoding", nil]];
+	[writer tag:@"loanDatabase" attributes:nil contentBlock:^{
+		[writer tag:@"loans" attributes:nil contentBlock:^{
+			[writer tag:@"loan" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"loan-123124",@"id",@"item-1231",@"itemID",@"friend-111",@"friendID", nil] contentBlock:^{
+				[writer text:@"This item has some content text!"];
+			}];
+		}];
+		[writer tag:@"items" attributes:nil contentBlock:^{
+			
+		}];
+		[writer tag:@"friends" attributes:nil contentBlock:^{
+			
+		}];
+	}];
+	NSLog(@"result XML: %@", writer.XMLString);
 }
 
 - (void)viewWillDisappear:(BOOL)animated

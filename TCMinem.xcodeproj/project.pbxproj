@@ -16,6 +16,7 @@
 		F2390BFC13CF358900812997 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2390BFA13CF358900812997 /* MainWindow.xib */; };
 		F2390BFF13CF358900812997 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2390BFE13CF358900812997 /* RootViewController.m */; };
 		F2390C0213CF358900812997 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2390C0013CF358900812997 /* RootViewController.xib */; };
+		F2390C1613CF395D00812997 /* TCMXMLWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = F2390C1513CF395D00812997 /* TCMXMLWriter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,8 @@
 		F2390BFD13CF358900812997 /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		F2390BFE13CF358900812997 /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		F2390C0113CF358900812997 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/RootViewController.xib; sourceTree = "<group>"; };
+		F2390C1413CF395D00812997 /* TCMXMLWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCMXMLWriter.h; path = TCMXML/TCMXMLWriter.h; sourceTree = SOURCE_ROOT; };
+		F2390C1513CF395D00812997 /* TCMXMLWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMXMLWriter.m; path = TCMXML/TCMXMLWriter.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +89,7 @@
 				F2390BFE13CF358900812997 /* RootViewController.m */,
 				F2390C0013CF358900812997 /* RootViewController.xib */,
 				F2390BEF13CF358900812997 /* Supporting Files */,
+				F2390C1813CF396E00812997 /* TCMXML */,
 			);
 			path = TCMinem;
 			sourceTree = "<group>";
@@ -100,6 +104,15 @@
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
+		};
+		F2390C1813CF396E00812997 /* TCMXML */ = {
+			isa = PBXGroup;
+			children = (
+				F2390C1413CF395D00812997 /* TCMXMLWriter.h */,
+				F2390C1513CF395D00812997 /* TCMXMLWriter.m */,
+			);
+			path = TCMXML;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -167,6 +180,7 @@
 				F2390BF613CF358900812997 /* main.m in Sources */,
 				F2390BF913CF358900812997 /* TCMinemAppDelegate.m in Sources */,
 				F2390BFF13CF358900812997 /* RootViewController.m in Sources */,
+				F2390C1613CF395D00812997 /* TCMXMLWriter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,6 +293,7 @@
 				F2390C0713CF358900812997 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
