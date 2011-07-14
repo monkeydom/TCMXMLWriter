@@ -23,14 +23,14 @@
 		F2390BE813CF358900812997 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		F2390BEA13CF358900812997 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F2390BEC13CF358900812997 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		F2390BF013CF358900812997 /* TCMinem-Info.plist */ = {isa = PBXFileReference; path = "TCMinem-Info.plist"; sourceTree = "<group>"; };
+		F2390BF013CF358900812997 /* TCMinem-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TCMinem-Info.plist"; sourceTree = "<group>"; };
 		F2390BF213CF358900812997 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F2390BF413CF358900812997 /* TCMinem-Prefix.pch */ = {isa = PBXFileReference; path = "TCMinem-Prefix.pch"; sourceTree = "<group>"; };
+		F2390BF413CF358900812997 /* TCMinem-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TCMinem-Prefix.pch"; sourceTree = "<group>"; };
 		F2390BF513CF358900812997 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		F2390BF713CF358900812997 /* TCMinemAppDelegate.h */ = {isa = PBXFileReference; path = TCMinemAppDelegate.h; sourceTree = "<group>"; };
+		F2390BF713CF358900812997 /* TCMinemAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TCMinemAppDelegate.h; sourceTree = "<group>"; };
 		F2390BF813CF358900812997 /* TCMinemAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TCMinemAppDelegate.m; sourceTree = "<group>"; };
 		F2390BFB13CF358900812997 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
-		F2390BFD13CF358900812997 /* RootViewController.h */ = {isa = PBXFileReference; path = RootViewController.h; sourceTree = "<group>"; };
+		F2390BFD13CF358900812997 /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		F2390BFE13CF358900812997 /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		F2390C0113CF358900812997 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/RootViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
