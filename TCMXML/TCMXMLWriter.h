@@ -18,6 +18,7 @@ typedef NSUInteger TCMXMLWriterOptions;
 @interface TCMXMLWriter : NSObject {}
 
 @property (nonatomic,retain) NSURL *fileURL;
+@property (readonly) NSString *XMLString;
 
 - (id)initWithOptions:(TCMXMLWriterOptions)anOptionField; // stores marshalled stuff in string
 - (id)initWithOptions:(TCMXMLWriterOptions)anOptionField fileURL:(NSURL *)aFileURL;
@@ -38,7 +39,5 @@ typedef NSUInteger TCMXMLWriterOptions;
 - (void)text:(NSString *)aTextString;
 - (void)cdata:(NSString *)aCDataString;
 - (void)xml:(NSString *)anXMLSnippet;
-
-- (NSString *)XMLString; // returns the result as string - if wasn't initialized with a Stream only
 
 @end

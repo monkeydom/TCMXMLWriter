@@ -17,6 +17,14 @@
 		F2390BFF13CF358900812997 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2390BFE13CF358900812997 /* RootViewController.m */; };
 		F2390C0213CF358900812997 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2390C0013CF358900812997 /* RootViewController.xib */; };
 		F2390C1613CF395D00812997 /* TCMXMLWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = F2390C1513CF395D00812997 /* TCMXMLWriter.m */; };
+		F2D9016513D0795F00E23494 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2D9016413D0795F00E23494 /* SenTestingKit.framework */; };
+		F2D9016613D0795F00E23494 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2390BE813CF358900812997 /* UIKit.framework */; };
+		F2D9016713D0795F00E23494 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2390BEA13CF358900812997 /* Foundation.framework */; };
+		F2D9016813D0795F00E23494 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2390BEC13CF358900812997 /* CoreGraphics.framework */; };
+		F2D9016E13D0795F00E23494 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F2D9016C13D0795F00E23494 /* InfoPlist.strings */; };
+		F2D9017013D0795F00E23494 /* UnitTests.h in Resources */ = {isa = PBXBuildFile; fileRef = F2D9016F13D0795F00E23494 /* UnitTests.h */; };
+		F2D9017713D0798700E23494 /* TCMXMLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D9015C13D077C400E23494 /* TCMXMLTests.m */; };
+		F2D9017813D07B2200E23494 /* TCMXMLWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = F2390C1513CF395D00812997 /* TCMXMLWriter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +44,15 @@
 		F2390C0113CF358900812997 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/RootViewController.xib; sourceTree = "<group>"; };
 		F2390C1413CF395D00812997 /* TCMXMLWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCMXMLWriter.h; path = TCMXML/TCMXMLWriter.h; sourceTree = SOURCE_ROOT; };
 		F2390C1513CF395D00812997 /* TCMXMLWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMXMLWriter.m; path = TCMXML/TCMXMLWriter.m; sourceTree = SOURCE_ROOT; };
+		F2D9015B13D077C400E23494 /* TCMXMLTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMXMLTests.h; sourceTree = "<group>"; };
+		F2D9015C13D077C400E23494 /* TCMXMLTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMXMLTests.m; sourceTree = "<group>"; };
+		F2D9016313D0795F00E23494 /* UnitTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2D9016413D0795F00E23494 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		F2D9016B13D0795F00E23494 /* UnitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UnitTests-Info.plist"; sourceTree = "<group>"; };
+		F2D9016D13D0795F00E23494 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F2D9016F13D0795F00E23494 /* UnitTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnitTests.h; sourceTree = "<group>"; };
+		F2D9017113D0795F00E23494 /* UnitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UnitTests.m; sourceTree = "<group>"; };
+		F2D9017313D0795F00E23494 /* UnitTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UnitTests-Prefix.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +66,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F2D9015F13D0795F00E23494 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2D9016513D0795F00E23494 /* SenTestingKit.framework in Frameworks */,
+				F2D9016613D0795F00E23494 /* UIKit.framework in Frameworks */,
+				F2D9016713D0795F00E23494 /* Foundation.framework in Frameworks */,
+				F2D9016813D0795F00E23494 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -56,6 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				F2390BEE13CF358900812997 /* TCMinem */,
+				F2D9016913D0795F00E23494 /* UnitTests */,
 				F2390BE713CF358900812997 /* Frameworks */,
 				F2390BE513CF358900812997 /* Products */,
 			);
@@ -65,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				F2390BE413CF358900812997 /* TCMinem.app */,
+				F2D9016313D0795F00E23494 /* UnitTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -75,6 +105,7 @@
 				F2390BE813CF358900812997 /* UIKit.framework */,
 				F2390BEA13CF358900812997 /* Foundation.framework */,
 				F2390BEC13CF358900812997 /* CoreGraphics.framework */,
+				F2D9016413D0795F00E23494 /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -108,11 +139,41 @@
 		F2390C1813CF396E00812997 /* TCMXML */ = {
 			isa = PBXGroup;
 			children = (
+				F2D9015913D0778700E23494 /* Tests */,
 				F2390C1413CF395D00812997 /* TCMXMLWriter.h */,
 				F2390C1513CF395D00812997 /* TCMXMLWriter.m */,
 			);
 			path = TCMXML;
 			sourceTree = SOURCE_ROOT;
+		};
+		F2D9015913D0778700E23494 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				F2D9015B13D077C400E23494 /* TCMXMLTests.h */,
+				F2D9015C13D077C400E23494 /* TCMXMLTests.m */,
+			);
+			name = Tests;
+			sourceTree = "<group>";
+		};
+		F2D9016913D0795F00E23494 /* UnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				F2D9016F13D0795F00E23494 /* UnitTests.h */,
+				F2D9017113D0795F00E23494 /* UnitTests.m */,
+				F2D9016A13D0795F00E23494 /* Supporting Files */,
+			);
+			path = UnitTests;
+			sourceTree = "<group>";
+		};
+		F2D9016A13D0795F00E23494 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F2D9016B13D0795F00E23494 /* UnitTests-Info.plist */,
+				F2D9016C13D0795F00E23494 /* InfoPlist.strings */,
+				F2D9017313D0795F00E23494 /* UnitTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -133,6 +194,24 @@
 			productName = TCMinem;
 			productReference = F2390BE413CF358900812997 /* TCMinem.app */;
 			productType = "com.apple.product-type.application";
+		};
+		F2D9016213D0795F00E23494 /* UnitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F2D9017413D0795F00E23494 /* Build configuration list for PBXNativeTarget "UnitTests" */;
+			buildPhases = (
+				F2D9015E13D0795F00E23494 /* Sources */,
+				F2D9015F13D0795F00E23494 /* Frameworks */,
+				F2D9016013D0795F00E23494 /* Resources */,
+				F2D9016113D0795F00E23494 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = UnitTests;
+			productName = UnitTests;
+			productReference = F2D9016313D0795F00E23494 /* UnitTests.octest */;
+			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
 
@@ -155,6 +234,7 @@
 			projectRoot = "";
 			targets = (
 				F2390BE313CF358900812997 /* TCMinem */,
+				F2D9016213D0795F00E23494 /* UnitTests */,
 			);
 		};
 /* End PBXProject section */
@@ -170,7 +250,32 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F2D9016013D0795F00E23494 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2D9016E13D0795F00E23494 /* InfoPlist.strings in Resources */,
+				F2D9017013D0795F00E23494 /* UnitTests.h in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F2D9016113D0795F00E23494 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F2390BE013CF358900812997 /* Sources */ = {
@@ -181,6 +286,15 @@
 				F2390BF913CF358900812997 /* TCMinemAppDelegate.m in Sources */,
 				F2390BFF13CF358900812997 /* RootViewController.m in Sources */,
 				F2390C1613CF395D00812997 /* TCMXMLWriter.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F2D9015E13D0795F00E23494 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2D9017713D0798700E23494 /* TCMXMLTests.m in Sources */,
+				F2D9017813D07B2200E23494 /* TCMXMLWriter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,6 +323,14 @@
 				F2390C0113CF358900812997 /* en */,
 			);
 			name = RootViewController.xib;
+			sourceTree = "<group>";
+		};
+		F2D9016C13D0795F00E23494 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F2D9016D13D0795F00E23494 /* en */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -274,6 +396,54 @@
 			};
 			name = Release;
 		};
+		F2D9017513D0795F00E23494 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "UnitTests/UnitTests-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				INFOPLIST_FILE = "UnitTests/UnitTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		F2D9017613D0795F00E23494 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "UnitTests/UnitTests-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				INFOPLIST_FILE = "UnitTests/UnitTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -294,6 +464,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		F2D9017413D0795F00E23494 /* Build configuration list for PBXNativeTarget "UnitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F2D9017513D0795F00E23494 /* Debug */,
+				F2D9017613D0795F00E23494 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

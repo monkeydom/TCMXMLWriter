@@ -15,7 +15,6 @@
 - (void)writeAttributes:(NSDictionary *)anAttributeDictionary;
 - (void)writeString:(NSString *)aString;
 - (void)createAndOpenStream;
-+ (NSString *)escapedAttributeValueForObject:(id)anObject;
 @end
 
 @implementation TCMXMLWriter
@@ -24,14 +23,6 @@
 @synthesize outputStream  = I_outputStream;
 
 @synthesize fileURL = I_fileURL;
-
-+ (NSString *)escapedAttributeValueForObject:(id)anObject {
-	NSString *result = nil;
-	if ([anObject isKindOfClass:[NSString class]]) {
-		result = anObject;
-	}
-	return [result stringByReplacingOccurrencesOfString:@"\"" withString:@"&quot;"];
-}
 
 - (id)initWithOptions:(TCMXMLWriterOptions)anOptionField {
 	if ((self = [super init])) {
@@ -81,6 +72,16 @@
 	}
 }
 
+- (void)writeAttributeValueEscaped:(id)aAttributeValue {
+	// TODO: handle other data types as well
+	NSMutableString *escapedString = [aAttributeValue mutableCopy];
+	[escapedString replaceOccurrencesOfString:@"&" withString:@"&amp;" options:NSLiteralSearch range:NSMakeRange(0,escapedString.length)];
+	[escapedString replaceOccurrencesOfString:@"\"" withString:@"&quot;" options:NSLiteralSearch range:NSMakeRange(0,escapedString.length)];
+	[self writeString:escapedString];
+	[escapedString release];
+	
+}
+
 - (void)writeStringXMLEscaped:(NSString *)aString {
 	// see http://www.w3.org/TR/xml11/
 	NSMutableString *escapedString = [aString mutableCopy];
@@ -97,7 +98,7 @@
 		[self writeString:key];
 		[self writeString:@"="];
 		[self writeString:@"\""];
-		[self writeString:[TCMXMLWriter escapedAttributeValueForObject:value]];
+		[self writeAttributeValueEscaped:value];
 		[self writeString:@"\""];
 	}];
 }
@@ -117,7 +118,7 @@
 	} else {
 		[self writeAttributes:anAttributeDictionary];
 	}
-	[self writeString:@"?>\n"];
+	[self writeString:@"?>"];
 }
 
 - (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentBlock:(void (^)(void))aContentBlock {
