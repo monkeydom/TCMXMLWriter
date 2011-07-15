@@ -33,7 +33,11 @@
 			}];
 		}];
 		[writer tag:@"items" attributes:nil contentBlock:^{
-			
+			[writer tag:@"item" attributes:nil contentBlock:^{
+				[writer tag:@"ImageData" attributes:nil contentBlock:^{
+					[writer cdata:@"This is quite literally a end]]> cdata ]]> problem"];
+				}];
+			}];
 		}];
 		[writer tag:@"friends" attributes:nil contentBlock:^{
 			

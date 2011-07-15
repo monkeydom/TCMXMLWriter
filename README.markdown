@@ -8,3 +8,6 @@
 
 ## Usage
 
+
+## Acknowledgements
+* greatly inspired by the [ruby XML Builder](http://rubyforge.org/projects/builder/) framework

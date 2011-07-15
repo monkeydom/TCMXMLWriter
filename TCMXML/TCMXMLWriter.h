@@ -33,7 +33,9 @@ typedef NSUInteger TCMXMLWriterOptions;
 //- (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentText:(NSString *)aContentText;
 - (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentBlock:(void (^)(void))aContentBlock;
 - (void)text:(NSString *)aTextString;
+- (void)cdata:(NSString *)aCDataString;
 - (NSString *)XMLString; // returns the result as string
+- (void)xml:(NSString *)anXMLSnippet;
 
 
 @end
