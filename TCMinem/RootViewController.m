@@ -24,7 +24,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-	TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:NULL];
+	TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:0];
 	[writer instruct:@"xml" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"1.0",@"version",@"UTF-8",@"encoding", nil]];
 	[writer tag:@"loanDatabase" attributes:nil contentBlock:^{
 		[writer tag:@"loans" attributes:nil contentBlock:^{

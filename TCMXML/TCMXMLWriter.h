@@ -15,27 +15,30 @@ enum {
 };
 typedef NSUInteger TCMXMLWriterOptions;
 
-@interface TCMXMLWriter : NSObject {
-
-}
+@interface TCMXMLWriter : NSObject {}
 
 @property (nonatomic,retain) NSURL *fileURL;
 
 - (id)initWithOptions:(TCMXMLWriterOptions)anOptionField; // stores marshalled stuff in string
 - (id)initWithOptions:(TCMXMLWriterOptions)anOptionField fileURL:(NSURL *)aFileURL;
+// stream must be open
+- (id)initWithOptions:(TCMXMLWriterOptions)anOptionField outputStream:(NSOutputStream *)anOutputStream;
 
-
+// meta
 - (void)instruct:(NSString *)anInstructionName attributes:(NSDictionary *)anAttributeDictionary;
+- (void)comment:(NSString *)aCommentContent;
 
-//- (void)tag:(NSString *)aTagName;
-//- (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary;
-//- (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentXML:(NSString *)aContentXML;
-//- (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentText:(NSString *)aContentText;
+// tags
+- (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary;
+- (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentXML:(NSString *)aContentXML;
+- (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentText:(NSString *)aContentText;
 - (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentBlock:(void (^)(void))aContentBlock;
+
+// content
 - (void)text:(NSString *)aTextString;
 - (void)cdata:(NSString *)aCDataString;
-- (NSString *)XMLString; // returns the result as string
 - (void)xml:(NSString *)anXMLSnippet;
 
+- (NSString *)XMLString; // returns the result as string - if wasn't initialized with a Stream only
 
 @end

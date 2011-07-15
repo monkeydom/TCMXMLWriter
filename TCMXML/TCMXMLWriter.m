@@ -46,6 +46,13 @@
 	return self;
 }
 
+- (id)initWithOptions:(TCMXMLWriterOptions)anOptionField outputStream:(NSOutputStream *)anOutputStream {
+	if ((self = [self initWithOptions:anOptionField])) {
+		self.outputStream = anOutputStream;
+	}
+	return self;
+}
+
 - (void)createAndOpenStream {
 	if (self.fileURL) {
 		self.outputStream = [NSOutputStream outputStreamWithURL:self.fileURL append:NO];
@@ -57,6 +64,7 @@
 
 - (void)writeString:(NSString *)aString {
 	if (!self.outputStream) [self createAndOpenStream];
+	// TODO: needs to handle output stream capacity problems, so probably one idirection is still in order.
 	CFDataRef dataRef = CFStringCreateExternalRepresentation(NULL, (CFStringRef)aString, kCFStringEncodingUTF8, 0);
 	if (dataRef) {
 		UInt8 *bytes = (UInt8 *)CFDataGetBytePtr(dataRef);
@@ -123,6 +131,28 @@
 	[self writeString:@">"];	
 }
 
+- (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentXML:(NSString *)aContentXML {
+	[self tag:aTagName attributes:anAttributeDictionary contentBlock:^{[self xml:aContentXML];}];
+}
+
+- (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentText:(NSString *)aContentText {
+	[self tag:aTagName attributes:anAttributeDictionary contentBlock:^{[self text:aContentText];}];
+}
+
+- (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary {
+	[self writeString:@"<"];
+	[self writeString:aTagName];
+	[self writeAttributes:anAttributeDictionary];
+	[self writeString:@"/>"];	
+}
+
+- (void)comment:(NSString *)aCommentContent {
+	[self writeString:@"<!-- "];
+	[self writeString:aCommentContent];
+	[self writeString:@" -->"];	
+}
+
+
 - (void)text:(NSString *)aTextString {
 	[self writeStringXMLEscaped:aTextString];
 }
@@ -147,7 +177,7 @@
 }
 
 - (void)dealloc {
-	[self.outputStream close];
+	if (self.fileURL) [self.outputStream close];
 	self.outputStream = nil;
 	self.fileURL = nil;
 	[super dealloc];
