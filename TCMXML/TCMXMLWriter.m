@@ -167,9 +167,9 @@
 	}
 }
 
-- (void)openTag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary {
+
+- (void)openTag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary hasDirectContent:(BOOL)hasDirectContent {
 	if (SHOULDPRETTYPRINT) {
-//		if (!I_currentTagHasContent) [self writeString:@"\n"];
 		[self writeString:I_indentationString];
 	}
 	[self writeString:@"<"];
@@ -178,16 +178,20 @@
 	[self writeString:@">"];	
 	[self.elementNameStackArray addObject:aTagName];
 	if (SHOULDPRETTYPRINT) {
-		[self writeString:@"\n"];
-		[I_indentationString appendString:@"\t"];
+		if (!hasDirectContent) [self writeString:@"\n"];
 	}
+	[I_indentationString appendString:@"\t"];
 	I_currentTagHasContent = NO;
+}
+
+- (void)openTag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary {
+	[self openTag:aTagName attributes:anAttributeDictionary hasDirectContent:NO];
 }
 
 - (void)closeLastTag {
 	NSString *tagName = [self.elementNameStackArray lastObject];
+	[I_indentationString deleteCharactersInRange:NSMakeRange(I_indentationString.length-1,1)];
 	if (SHOULDPRETTYPRINT) {
-		[I_indentationString deleteCharactersInRange:NSMakeRange(I_indentationString.length-1,1)];
 		[self writeString:I_indentationString];
 	}
 	[self writeString:@"</"];
@@ -212,16 +216,40 @@
 }
 
 - (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentText:(NSString *)aContentText {
-	[self openTag:aTagName attributes:anAttributeDictionary];
+	[self openTag:aTagName attributes:anAttributeDictionary hasDirectContent:YES];
+	NSUInteger oldOptions = I_writerOptions;
+	I_writerOptions = oldOptions & (~TCMXMLWriterOptionPrettyPrinted);
 	[self text:aContentText];
 	[self closeLastTag];
+	I_writerOptions = oldOptions;
+	if (SHOULDPRETTYPRINT) {
+		[self writeString:@"\n"];
+	}
+}
+
+- (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentCDATA:(NSString *)aContentCDATA {
+	[self openTag:aTagName attributes:anAttributeDictionary hasDirectContent:YES];
+	NSUInteger oldOptions = I_writerOptions;
+	I_writerOptions = oldOptions & (~TCMXMLWriterOptionPrettyPrinted);
+	[self cdata:aContentCDATA];
+	[self closeLastTag];
+	I_writerOptions = oldOptions;
+	if (SHOULDPRETTYPRINT) {
+		[self writeString:@"\n"];
+	}
 }
 
 - (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary {
+	if (SHOULDPRETTYPRINT) {
+		[self writeString:I_indentationString];
+	}
 	[self writeString:@"<"];
 	[self writeString:aTagName];
 	[self writeAttributes:anAttributeDictionary];
-	[self writeString:@"/>"];	
+	[self writeString:@"/>"];
+	if (SHOULDPRETTYPRINT) {
+		[self writeString:@"\n"];
+	}
 }
 
 - (void)comment:(NSString *)aCommentContent {

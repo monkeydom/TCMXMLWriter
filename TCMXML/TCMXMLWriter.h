@@ -39,10 +39,12 @@ typedef NSUInteger TCMXMLWriterOptions;
 - (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary; // contentless
 
 // synchronous tags
-- (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentXML:(NSString *)aContentXML;
-- (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentText:(NSString *)aContentText;
 - (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentBlock:(void (^)(void))aContentBlock;
 
+// direct data tags (for prettier formatting)
+- (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentXML:(NSString *)aContentXML;
+- (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentText:(NSString *)aContentText;
+- (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentCDATA:(NSString *)aContentCDATA;
 
 // content
 - (void)text:(NSString *)aTextString;
