@@ -11,6 +11,12 @@
 
 @implementation RootViewController
 
+- (id)initWithStyle:(UITableViewStyle)aStyle {
+	if ((self=[super initWithStyle:aStyle])) {
+	}
+	return self;
+}
+
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
@@ -18,32 +24,56 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
+	if (!contentArray) {
+		contentArray = [[NSMutableArray alloc] initWithObjects:
+											[NSDictionary dictionaryWithObjectsAndKeys:@"Random XML",@"title",^{
+		
+		TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:TCMXMLWriterOptionPrettyPrinted];
+		[writer instruct:@"xml" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"1.0",@"version",@"UTF-8",@"encoding", nil]];
+		[writer tag:@"loanDatabase" attributes:nil contentBlock:^{
+			[writer tag:@"loans" attributes:nil contentBlock:^{
+				[writer tag:@"loan" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"loan-123124",@"id",@"item-1231",@"itemID",@"friend-111",@"friendID", nil] contentBlock:^{
+					[writer text:@"This item has some content text!"];
+				}];
+			}];
+			[writer tag:@"items" attributes:nil contentBlock:^{
+				[writer tag:@"item" attributes:nil contentBlock:^{
+					[writer tag:@"ImageData" attributes:nil contentBlock:^{
+						[writer cdata:@"This is quite literally a end]]> cdata ]]> problem"];
+					}];
+				}];
+			}];
+			[writer tag:@"friends" attributes:nil contentBlock:^{
+				
+			}];
+		}];
+		NSLog(@"result XML:n\n%@", writer.XMLString);
+	},@"block",nil],
+						[NSDictionary dictionaryWithObjectsAndKeys:@"New York KML",@"title",^{
+			
+			TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:TCMXMLWriterOptionPrettyPrinted];
+			[writer instructXML];
+			[writer tag:@"kml" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"http://www.opengis.net/kml/2.2",@"xmlns", nil] contentBlock:^{
+				[writer tag:@"Document" attributes:nil contentBlock:^{
+					[writer tag:@"Placemark" attributes:nil contentBlock:^{
+						[writer tag:@"name" attributes:nil contentText:@"NYC"];
+						[writer tag:@"description" attributes:nil contentText:@"New York City"];
+						[writer tag:@"Point" attributes:nil contentBlock:^{
+							[writer tag:@"coordinates" attributes:nil contentText:@"-74.006393,40.714172,0"];
+						}];
+					}];
+				}];
+			}];
+			NSLog(@"result XML:\n%@", writer.XMLString);
+		},@"block",nil],
+											nil];
+	}
+	[super viewWillAppear:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-	TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:0];
-	[writer instruct:@"xml" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"1.0",@"version",@"UTF-8",@"encoding", nil]];
-	[writer tag:@"loanDatabase" attributes:nil contentBlock:^{
-		[writer tag:@"loans" attributes:nil contentBlock:^{
-			[writer tag:@"loan" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"loan-123124",@"id",@"item-1231",@"itemID",@"friend-111",@"friendID", nil] contentBlock:^{
-				[writer text:@"This item has some content text!"];
-			}];
-		}];
-		[writer tag:@"items" attributes:nil contentBlock:^{
-			[writer tag:@"item" attributes:nil contentBlock:^{
-				[writer tag:@"ImageData" attributes:nil contentBlock:^{
-					[writer cdata:@"This is quite literally a end]]> cdata ]]> problem"];
-				}];
-			}];
-		}];
-		[writer tag:@"friends" attributes:nil contentBlock:^{
-			
-		}];
-	}];
-	NSLog(@"result XML: %@", writer.XMLString);
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -72,7 +102,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return 0;
+	return contentArray.count;
 }
 
 // Customize the appearance of table view cells.
@@ -86,6 +116,7 @@
     }
 
 	// Configure the cell.
+	cell.textLabel.text = [[contentArray objectAtIndex:indexPath.row] objectForKey:@"title"];
     return cell;
 }
 
@@ -139,6 +170,7 @@
     [self.navigationController pushViewController:detailViewController animated:YES];
     [detailViewController release];
 	*/
+	((void(^)(void))[[contentArray objectAtIndex:indexPath.row] objectForKey:@"block"])();
 }
 
 - (void)didReceiveMemoryWarning
