@@ -20,7 +20,7 @@ typedef NSUInteger TCMXMLWriterOptions;
 
 @property (nonatomic,retain) NSURL *fileURL;
 @property (readonly) NSString *XMLString;
-@property (readonly) NSMutableString *indentationString;
+@property (nonatomic, retain) NSDateFormatter *dateFormatter;
 
 - (id)initWithOptions:(TCMXMLWriterOptions)anOptionField; // stores marshalled stuff in string
 - (id)initWithOptions:(TCMXMLWriterOptions)anOptionField fileURL:(NSURL *)aFileURL;

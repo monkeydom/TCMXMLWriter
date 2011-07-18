@@ -12,10 +12,10 @@
 
 @interface TCMXMLWriter ()
 @property BOOL currentTagHasContent;
-@property NSMutableString *indentationString;
+@property (nonatomic, retain) NSMutableString *indentationString;
 @property TCMXMLWriterOptions writerOptions;
-@property (retain) NSOutputStream *outputStream;
-@property (retain) NSMutableArray *elementNameStackArray;
+@property (nonatomic, retain) NSOutputStream *outputStream;
+@property (nonatomic, retain) NSMutableArray *elementNameStackArray;
 - (void)writeAttributes:(NSDictionary *)anAttributeDictionary;
 - (void)writeString:(NSString *)aString;
 - (void)createAndOpenStream;
@@ -28,6 +28,7 @@
 @synthesize elementNameStackArray = I_elementNameStackArray;
 @synthesize indentationString = I_indentationString;
 @synthesize currentTagHasContent = I_currentTagHasContent;
+@synthesize dateFormatter = I_dateFormatter;
 
 @synthesize fileURL = I_fileURL;
 
@@ -36,6 +37,9 @@
 		I_elementNameStackArray = [NSMutableArray new];
 		self.writerOptions = anOptionField;
 		I_indentationString = [NSMutableString new];
+		I_dateFormatter = [NSDateFormatter new];
+		[I_dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+		[I_dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
 	}
 	return self;
 }
@@ -59,6 +63,7 @@
 	self.fileURL = nil;
 	self.elementNameStackArray = nil;
 	self.indentationString = nil;
+	self.dateFormatter = nil;
 	[super dealloc];
 }
 
@@ -97,9 +102,16 @@
 	}
 }
 
-- (void)writeAttributeValueEscaped:(id)aAttributeValue {
-	// TODO: handle other data types as well
-	NSMutableString *escapedString = [aAttributeValue mutableCopy];
+- (void)writeAttributeValueEscaped:(id)anAttributeValue {
+	NSMutableString *escapedString = nil;
+	if ([anAttributeValue isKindOfClass:[NSString class]]) {
+		escapedString = [anAttributeValue mutableCopy];
+	} else if ([anAttributeValue isKindOfClass:[NSDate class]]) {
+		escapedString = [[I_dateFormatter stringFromDate:anAttributeValue] mutableCopy];
+	} else if ([anAttributeValue isKindOfClass:[NSNumber class]]) {
+		NSNumber *value = (NSNumber *)anAttributeValue;
+		escapedString = [[value stringValue] mutableCopy];
+	}
 	[escapedString replaceOccurrencesOfString:@"&" withString:@"&amp;" options:NSLiteralSearch range:NSMakeRange(0,escapedString.length)];
 	[escapedString replaceOccurrencesOfString:@"\"" withString:@"&quot;" options:NSLiteralSearch range:NSMakeRange(0,escapedString.length)];
 	[self writeString:escapedString];
