@@ -12,6 +12,7 @@
 @interface TCMXMLWriter ()
 @property TCMXMLWriterOptions writerOptions;
 @property (retain) NSOutputStream *outputStream;
+@property (retain) NSMutableArray *elementNameStackArray;
 - (void)writeAttributes:(NSDictionary *)anAttributeDictionary;
 - (void)writeString:(NSString *)aString;
 - (void)createAndOpenStream;
@@ -21,11 +22,13 @@
 
 @synthesize writerOptions = I_writerOptions;
 @synthesize outputStream  = I_outputStream;
+@synthesize elementNameStackArray = I_elementNameStackArray;
 
 @synthesize fileURL = I_fileURL;
 
 - (id)initWithOptions:(TCMXMLWriterOptions)anOptionField {
 	if ((self = [super init])) {
+		I_elementNameStackArray = [NSMutableArray new];
 		self.writerOptions = anOptionField;
 	}
 	return self;
@@ -93,14 +96,32 @@
 }
 
 - (void)writeAttributes:(NSDictionary *)anAttributeDictionary {
-	[anAttributeDictionary enumerateKeysAndObjectsUsingBlock:^(id key,id value,BOOL *stop){
+	void (^writerBlock)(id key, id obj, BOOL *stop)  = ^(id key,id value,BOOL *stop){
 		[self writeString:@" "];
 		[self writeString:key];
 		[self writeString:@"="];
 		[self writeString:@"\""];
 		[self writeAttributeValueEscaped:value];
 		[self writeString:@"\""];
-	}];
+	};
+	if (I_writerOptions & TCMXMLWriterOptionOrderedAttributes) {
+		NSMutableArray *sortedAttributeKeys = [[anAttributeDictionary allKeys] mutableCopy];
+		[sortedAttributeKeys sortUsingSelector:@selector(caseInsensitiveCompare:)];
+		for (NSString *key in sortedAttributeKeys) {
+			writerBlock(key, [anAttributeDictionary objectForKey:key], NULL);
+		}
+		[sortedAttributeKeys release];
+	} else {
+		[anAttributeDictionary enumerateKeysAndObjectsUsingBlock:writerBlock];
+	}
+}
+
+- (void)instructXML {
+	[self instruct:@"xml" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"1.0",@"version",@"UTF-8",@"encoding", nil]];
+}
+
+- (void)instructXMLStandalone {
+	[self instruct:@"xml" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"1.0",@"version",@"UTF-8",@"encoding",@"yes",@"standalone", nil]];
 }
 
 - (void)instruct:(NSString *)anInstructionName attributes:(NSDictionary *)anAttributeDictionary {
@@ -121,15 +142,26 @@
 	[self writeString:@"?>"];
 }
 
-- (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentBlock:(void (^)(void))aContentBlock {
+- (void)openTag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary {
 	[self writeString:@"<"];
 	[self writeString:aTagName];
 	[self writeAttributes:anAttributeDictionary];
 	[self writeString:@">"];	
-		aContentBlock();
+	[self.elementNameStackArray addObject:aTagName];
+}
+
+- (void)closeLastTag {
+	NSString *tagName = [self.elementNameStackArray lastObject];
 	[self writeString:@"</"];
-	[self writeString:aTagName];
-	[self writeString:@">"];	
+	[self writeString:tagName];
+	[self writeString:@">"];
+	[self.elementNameStackArray removeLastObject];
+}
+
+- (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentBlock:(void (^)(void))aContentBlock {
+	[self openTag:aTagName attributes:anAttributeDictionary];
+		aContentBlock();
+	[self closeLastTag];
 }
 
 - (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentXML:(NSString *)aContentXML {
@@ -181,6 +213,7 @@
 	if (self.fileURL) [self.outputStream close];
 	self.outputStream = nil;
 	self.fileURL = nil;
+	self.elementNameStackArray = nil;
 	[super dealloc];
 }
 

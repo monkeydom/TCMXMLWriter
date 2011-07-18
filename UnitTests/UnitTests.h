@@ -7,7 +7,15 @@
 //
 
 #import <SenTestingKit/SenTestingKit.h>
+#import "TCMXMLWriter.h"
 
-@interface UnitTests : SenTestCase
+@interface UnitTests : SenTestCase <NSXMLParserDelegate> {
+	
+}
+
+@property (retain) TCMXMLWriter *xmlWriter;
+
+- (void)remarshallXMLURL:(NSURL *)anURL;
+
 
 @end

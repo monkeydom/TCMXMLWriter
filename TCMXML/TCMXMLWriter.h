@@ -11,7 +11,8 @@
 #define TCMWriterOptionNoOptions = 0UL;
 
 enum {
-	TCMXMLWriterOptionPrettyPrinted = 1UL << 0
+	TCMXMLWriterOptionPrettyPrinted = 1UL << 0,
+	TCMXMLWriterOptionOrderedAttributes = 1UL << 1 // mainly for unit testing to get reproducible results, but can also be helpful otherwise for stable results
 };
 typedef NSUInteger TCMXMLWriterOptions;
 
@@ -26,14 +27,21 @@ typedef NSUInteger TCMXMLWriterOptions;
 - (id)initWithOptions:(TCMXMLWriterOptions)anOptionField outputStream:(NSOutputStream *)anOutputStream;
 
 // meta
+- (void)instructXMLStandalone; // <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+- (void)instructXML; // <?xml version="1.0" encoding="UTF-8"?>
 - (void)instruct:(NSString *)anInstructionName attributes:(NSDictionary *)anAttributeDictionary;
 - (void)comment:(NSString *)aCommentContent;
 
-// tags
-- (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary;
+// asynchronous tags
+- (void)openTag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary;
+- (void)closeLastTag;
+- (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary; // contentless
+
+// synchronous tags
 - (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentXML:(NSString *)aContentXML;
 - (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentText:(NSString *)aContentText;
 - (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentBlock:(void (^)(void))aContentBlock;
+
 
 // content
 - (void)text:(NSString *)aTextString;

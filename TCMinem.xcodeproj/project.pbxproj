@@ -17,6 +17,8 @@
 		F2390BFF13CF358900812997 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2390BFE13CF358900812997 /* RootViewController.m */; };
 		F2390C0213CF358900812997 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2390C0013CF358900812997 /* RootViewController.xib */; };
 		F2390C1613CF395D00812997 /* TCMXMLWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = F2390C1513CF395D00812997 /* TCMXMLWriter.m */; };
+		F2930E5613D44FBE00F0B0C3 /* fanboyspodcast.m4a.rss in Resources */ = {isa = PBXBuildFile; fileRef = F2930E5313D44FAF00F0B0C3 /* fanboyspodcast.m4a.rss */; };
+		F2930E5713D4509700F0B0C3 /* UnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D9017113D0795F00E23494 /* UnitTests.m */; };
 		F2D9016513D0795F00E23494 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2D9016413D0795F00E23494 /* SenTestingKit.framework */; };
 		F2D9016613D0795F00E23494 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2390BE813CF358900812997 /* UIKit.framework */; };
 		F2D9016713D0795F00E23494 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2390BEA13CF358900812997 /* Foundation.framework */; };
@@ -44,6 +46,7 @@
 		F2390C0113CF358900812997 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/RootViewController.xib; sourceTree = "<group>"; };
 		F2390C1413CF395D00812997 /* TCMXMLWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCMXMLWriter.h; path = TCMXML/TCMXMLWriter.h; sourceTree = SOURCE_ROOT; };
 		F2390C1513CF395D00812997 /* TCMXMLWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMXMLWriter.m; path = TCMXML/TCMXMLWriter.m; sourceTree = SOURCE_ROOT; };
+		F2930E5313D44FAF00F0B0C3 /* fanboyspodcast.m4a.rss */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = fanboyspodcast.m4a.rss; sourceTree = "<group>"; };
 		F2D9015B13D077C400E23494 /* TCMXMLTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMXMLTests.h; sourceTree = "<group>"; };
 		F2D9015C13D077C400E23494 /* TCMXMLTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMXMLTests.m; sourceTree = "<group>"; };
 		F2D9016313D0795F00E23494 /* UnitTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -146,6 +149,14 @@
 			path = TCMXML;
 			sourceTree = SOURCE_ROOT;
 		};
+		F2930E5213D44FAF00F0B0C3 /* TestData */ = {
+			isa = PBXGroup;
+			children = (
+				F2930E5313D44FAF00F0B0C3 /* fanboyspodcast.m4a.rss */,
+			);
+			path = TestData;
+			sourceTree = "<group>";
+		};
 		F2D9015913D0778700E23494 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -168,6 +179,7 @@
 		F2D9016A13D0795F00E23494 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F2930E5213D44FAF00F0B0C3 /* TestData */,
 				F2D9016B13D0795F00E23494 /* UnitTests-Info.plist */,
 				F2D9016C13D0795F00E23494 /* InfoPlist.strings */,
 				F2D9017313D0795F00E23494 /* UnitTests-Prefix.pch */,
@@ -256,6 +268,7 @@
 			files = (
 				F2D9016E13D0795F00E23494 /* InfoPlist.strings in Resources */,
 				F2D9017013D0795F00E23494 /* UnitTests.h in Resources */,
+				F2930E5613D44FBE00F0B0C3 /* fanboyspodcast.m4a.rss in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,6 +308,7 @@
 			files = (
 				F2D9017713D0798700E23494 /* TCMXMLTests.m in Sources */,
 				F2D9017813D07B2200E23494 /* TCMXMLWriter.m in Sources */,
+				F2930E5713D4509700F0B0C3 /* UnitTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -472,6 +486,7 @@
 				F2D9017613D0795F00E23494 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
