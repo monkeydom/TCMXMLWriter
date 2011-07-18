@@ -25,9 +25,18 @@
     [super tearDown];
 }
 
+- (NSString *)applicationDocumentsDirectory {
+    return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+}
+
+- (NSURL *)documentURLWithName:(NSString *)aName {
+	return [NSURL fileURLWithPath:[[self applicationDocumentsDirectory] stringByAppendingPathComponent:aName]];
+}
+
 - (void)remarshallXMLURL:(NSURL *)anURL {
 	NSLog(@"%s %@", __FUNCTION__, anURL);
-	TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:TCMXMLWriterOptionOrderedAttributes];
+	NSURL *outputURL = [self documentURLWithName:[[anURL filePathURL] lastPathComponent]];
+	TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:TCMXMLWriterOptionOrderedAttributes fileURL:outputURL];
 	self.xmlWriter = writer;
 	[writer release];
 	

@@ -66,6 +66,9 @@
 
 - (void)createAndOpenStream {
 	if (self.fileURL) {
+		if (![[NSFileManager defaultManager] isWritableFileAtPath:[self.fileURL path]]) {
+			[[NSFileManager defaultManager] createDirectoryAtPath:[[self.fileURL path] stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:nil];
+		}
 		self.outputStream = [NSOutputStream outputStreamWithURL:self.fileURL append:NO];
 	} else {
 		self.outputStream = [NSOutputStream outputStreamToMemory]; 
