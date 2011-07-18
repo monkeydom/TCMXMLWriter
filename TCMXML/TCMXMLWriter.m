@@ -103,20 +103,34 @@
 }
 
 - (void)writeAttributeValueEscaped:(id)anAttributeValue {
+	BOOL needsEscaping = YES;
 	NSMutableString *escapedString = nil;
+	NSString *string = nil;
 	if ([anAttributeValue isKindOfClass:[NSString class]]) {
 		escapedString = [anAttributeValue mutableCopy];
 	} else if ([anAttributeValue isKindOfClass:[NSDate class]]) {
-		escapedString = [[I_dateFormatter stringFromDate:anAttributeValue] mutableCopy];
+		needsEscaping = NO;
+		string = [I_dateFormatter stringFromDate:anAttributeValue];
 	} else if ([anAttributeValue isKindOfClass:[NSNumber class]]) {
 		NSNumber *value = (NSNumber *)anAttributeValue;
-		escapedString = [[value stringValue] mutableCopy];
+		needsEscaping = NO;
+		if (value == (NSNumber *)kCFBooleanTrue) {
+			string = @"yes";
+		} else if (value == (NSNumber *)kCFBooleanFalse) {
+			string = @"no";
+		} else {
+			string = [value stringValue];
+		}
 	}
-	[escapedString replaceOccurrencesOfString:@"&" withString:@"&amp;" options:NSLiteralSearch range:NSMakeRange(0,escapedString.length)];
-	[escapedString replaceOccurrencesOfString:@"\"" withString:@"&quot;" options:NSLiteralSearch range:NSMakeRange(0,escapedString.length)];
-	[self writeString:escapedString];
-	[escapedString release];
-	
+	if (needsEscaping) {
+		[escapedString replaceOccurrencesOfString:@"&" withString:@"&amp;" options:NSLiteralSearch range:NSMakeRange(0,escapedString.length)];
+		[escapedString replaceOccurrencesOfString:@"\"" withString:@"&quot;" options:NSLiteralSearch range:NSMakeRange(0,escapedString.length)];
+		[self writeString:escapedString];
+		[escapedString release];
+	} else {
+		[self writeString:string];
+	}
+		
 }
 
 - (void)writeStringXMLEscaped:(NSString *)aString {

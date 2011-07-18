@@ -32,7 +32,7 @@
 		[writer instruct:@"xml" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"1.0",@"version",@"UTF-8",@"encoding", nil]];
 		[writer tag:@"loanDatabase" attributes:nil contentBlock:^{
 			[writer tag:@"loans" attributes:nil contentBlock:^{
-				[writer tag:@"loan" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"loan-123124",@"id",@"item-1231",@"itemID",@"friend-111",@"friendID", nil] contentBlock:^{
+				[writer tag:@"loan" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"loan-123124",@"id",@"item-1231",@"itemID",@"friend-111",@"friendID", [NSNumber numberWithBool:NO], @"no",[NSNumber numberWithBool:YES], @"yes", nil] contentBlock:^{
 					[writer text:@"This item has some content text!"];
 				}];
 			}];

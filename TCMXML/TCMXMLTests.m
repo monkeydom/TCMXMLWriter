@@ -21,7 +21,7 @@
 			[writer tag:@"loan" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"loan-123124",@"id",@"item-1231",@"itemID",@"friend-111",@"friendID", nil] contentBlock:^{
 				[writer text:@"This item has some content text!"];
 			}];
-			[writer tag:@"loan" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"loan-123125",@"id",@"item-1231",@"itemID",@"friend-111",@"friendID", nil] contentText:@"This item has some direct content text!"];
+			[writer tag:@"loan" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"loan-123125",@"id",@"item-1231",@"itemID",@"friend-111",@"friendID",[NSNumber numberWithBool:NO], @"no",[NSNumber numberWithBool:YES], @"yes", nil] contentText:@"This item has some direct content text!"];
 			for (int i=0; i<10; i++) {
 				[writer tag:@"loan" attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Loan/p%d",i],@"id",[NSDate date],@"dueDate",[NSNumber numberWithInt:i],@"someNumber",[NSNumber numberWithFloat:(float)i/7.0],@"someFloat", nil]];
 			}
