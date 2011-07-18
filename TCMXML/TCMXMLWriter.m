@@ -203,11 +203,15 @@
 }
 
 - (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentXML:(NSString *)aContentXML {
-	[self tag:aTagName attributes:anAttributeDictionary contentBlock:^{[self xml:aContentXML];}];
+	[self openTag:aTagName attributes:anAttributeDictionary];
+	[self xml:aContentXML];
+	[self closeLastTag];
 }
 
 - (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentText:(NSString *)aContentText {
-	[self tag:aTagName attributes:anAttributeDictionary contentBlock:^{[self text:aContentText];}];
+	[self openTag:aTagName attributes:anAttributeDictionary];
+	[self text:aContentText];
+	[self closeLastTag];
 }
 
 - (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary {
@@ -218,9 +222,15 @@
 }
 
 - (void)comment:(NSString *)aCommentContent {
+	if (SHOULDPRETTYPRINT) {
+		[self writeString:I_indentationString];
+	}	
 	[self writeString:@"<!-- "];
 	[self writeString:aCommentContent];
 	[self writeString:@" -->"];	
+	if (SHOULDPRETTYPRINT) {
+		[self writeString:@"\n"];
+	}
 }
 
 

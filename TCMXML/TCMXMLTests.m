@@ -29,6 +29,7 @@
 				}];
 			}];
 		}];
+		[writer comment:@"Some comment about \"friends\" -- you know -"];
 		[writer tag:@"friends" attributes:nil contentBlock:^{
 			
 		}];
