@@ -14,7 +14,7 @@
 // All code under test must be linked into the Unit Test bundle
 - (void)testInMemory {
 	
-	TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:0];
+	TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:TCMXMLWriterOptionOrderedAttributes | TCMXMLWriterOptionPrettyPrinted];
 	[writer instruct:@"xml" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"1.0",@"version",@"UTF-8",@"encoding", nil]];
 	[writer tag:@"loanDatabase" attributes:nil contentBlock:^{
 		[writer tag:@"loans" attributes:nil contentBlock:^{
@@ -33,7 +33,7 @@
 			
 		}];
 	}];
-//	NSLog(@"result XML: %@", writer.XMLString);
+	NSLog(@"result XML: \n%@", writer.XMLString);
 	[writer release];
 }
 

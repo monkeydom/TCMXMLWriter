@@ -80,7 +80,7 @@
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parse {
-	NSLog(@"%s result:\n\n%@", __FUNCTION__, self.xmlWriter.XMLString);
+	//NSLog(@"%s result:\n\n%@", __FUNCTION__, self.xmlWriter.XMLString);
 }
 
 - (void)parser:(NSXMLParser *)parser foundIgnorableWhitespace:(NSString *)whitespaceString {

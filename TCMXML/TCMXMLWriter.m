@@ -8,8 +8,11 @@
 
 #import "TCMXMLWriter.h"
 
+#define SHOULDPRETTYPRINT (I_writerOptions & TCMXMLWriterOptionPrettyPrinted)
 
 @interface TCMXMLWriter ()
+@property BOOL currentTagHasContent;
+@property NSMutableString *indentationString;
 @property TCMXMLWriterOptions writerOptions;
 @property (retain) NSOutputStream *outputStream;
 @property (retain) NSMutableArray *elementNameStackArray;
@@ -23,6 +26,8 @@
 @synthesize writerOptions = I_writerOptions;
 @synthesize outputStream  = I_outputStream;
 @synthesize elementNameStackArray = I_elementNameStackArray;
+@synthesize indentationString = I_indentationString;
+@synthesize currentTagHasContent = I_currentTagHasContent;
 
 @synthesize fileURL = I_fileURL;
 
@@ -30,6 +35,7 @@
 	if ((self = [super init])) {
 		I_elementNameStackArray = [NSMutableArray new];
 		self.writerOptions = anOptionField;
+		I_indentationString = [NSMutableString new];
 	}
 	return self;
 }
@@ -47,6 +53,17 @@
 	return self;
 }
 
+- (void)dealloc {
+	if (self.fileURL) [self.outputStream close];
+	self.outputStream = nil;
+	self.fileURL = nil;
+	self.elementNameStackArray = nil;
+	self.indentationString = nil;
+	[super dealloc];
+}
+
+
+
 - (void)createAndOpenStream {
 	if (self.fileURL) {
 		self.outputStream = [NSOutputStream outputStreamWithURL:self.fileURL append:NO];
@@ -57,21 +74,23 @@
 }
 
 - (void)writeString:(NSString *)aString {
-	if (!self.outputStream) [self createAndOpenStream];
-	// TODO: needs to handle output stream capacity problems, so probably one idirection is still in order.
-	CFDataRef dataRef = CFStringCreateExternalRepresentation(NULL, (CFStringRef)aString, kCFStringEncodingUTF8, 0);
-	if (dataRef) {
-		UInt8 *bytes = (UInt8 *)CFDataGetBytePtr(dataRef);
-		UInt8 *endOfBytes = bytes + CFDataGetLength(dataRef);
-		do {
-			NSInteger writtenLength = [I_outputStream write:bytes maxLength:endOfBytes-bytes];
-			if (writtenLength == -1 || writtenLength == 0) {
-				NSLog(@"stream error occured: %@", [I_outputStream streamError]);
-				break;
-			}
-			bytes += writtenLength;
-		} while (bytes != endOfBytes);
-		CFRelease(dataRef);
+	if (aString.length > 0) {
+		if (!self.outputStream) [self createAndOpenStream];
+		// TODO: needs to handle output stream capacity problems, so probably one idirection is still in order.
+		CFDataRef dataRef = CFStringCreateExternalRepresentation(NULL, (CFStringRef)aString, kCFStringEncodingUTF8, 0);
+		if (dataRef) {
+			UInt8 *bytes = (UInt8 *)CFDataGetBytePtr(dataRef);
+			UInt8 *endOfBytes = bytes + CFDataGetLength(dataRef);
+			do {
+				NSInteger writtenLength = [I_outputStream write:bytes maxLength:endOfBytes-bytes];
+				if (writtenLength == -1 || writtenLength == 0) {
+					NSLog(@"stream error occured: %@", [I_outputStream streamError]);
+					break;
+				}
+				bytes += writtenLength;
+			} while (bytes != endOfBytes);
+			CFRelease(dataRef);
+		}
 	}
 }
 
@@ -140,27 +159,46 @@
 		[self writeAttributes:anAttributeDictionary];
 	}
 	[self writeString:@"?>"];
+	if (SHOULDPRETTYPRINT) {
+		[self writeString:@"\n"];
+	}
 }
 
 - (void)openTag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary {
+	if (SHOULDPRETTYPRINT) {
+//		if (!I_currentTagHasContent) [self writeString:@"\n"];
+		[self writeString:I_indentationString];
+	}
 	[self writeString:@"<"];
 	[self writeString:aTagName];
 	[self writeAttributes:anAttributeDictionary];
 	[self writeString:@">"];	
 	[self.elementNameStackArray addObject:aTagName];
+	if (SHOULDPRETTYPRINT) {
+		[self writeString:@"\n"];
+		[I_indentationString appendString:@"\t"];
+	}
+	I_currentTagHasContent = NO;
 }
 
 - (void)closeLastTag {
 	NSString *tagName = [self.elementNameStackArray lastObject];
+	if (SHOULDPRETTYPRINT) {
+		[I_indentationString deleteCharactersInRange:NSMakeRange(I_indentationString.length-1,1)];
+		[self writeString:I_indentationString];
+	}
 	[self writeString:@"</"];
 	[self writeString:tagName];
 	[self writeString:@">"];
 	[self.elementNameStackArray removeLastObject];
+	if (SHOULDPRETTYPRINT) {
+		[self writeString:@"\n"];
+	}
 }
 
 - (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentBlock:(void (^)(void))aContentBlock {
 	[self openTag:aTagName attributes:anAttributeDictionary];
-		aContentBlock();
+	aContentBlock();
 	[self closeLastTag];
 }
 
@@ -187,14 +225,25 @@
 
 
 - (void)text:(NSString *)aTextString {
+	if (SHOULDPRETTYPRINT) {
+		[self writeString:I_indentationString];
+	}	
 	[self writeStringXMLEscaped:aTextString];
+	I_currentTagHasContent = YES;
+	if (SHOULDPRETTYPRINT) {
+		[self writeString:@"\n"];
+	}
 }
 
 - (void)xml:(NSString *)anXMLSnippet {
 	[self writeString:anXMLSnippet];
+	I_currentTagHasContent = YES;
 }
 
 - (void)cdata:(NSString *)aCDataString {
+	if (SHOULDPRETTYPRINT) {
+		[self writeString:I_indentationString];
+	}	
 	[self writeString:@"<![CDATA["];
 	
 	if ([aCDataString rangeOfString:@"]]>"].location != NSNotFound) {
@@ -207,14 +256,10 @@
 	}
 	
 	[self writeString:@"]]>"];
-}
-
-- (void)dealloc {
-	if (self.fileURL) [self.outputStream close];
-	self.outputStream = nil;
-	self.fileURL = nil;
-	self.elementNameStackArray = nil;
-	[super dealloc];
+	if (SHOULDPRETTYPRINT) {
+		[self writeString:@"\n"];
+	}
+	I_currentTagHasContent = YES;
 }
 
 - (NSString *)XMLString {
