@@ -36,7 +36,7 @@ This is a example generating KML of New York:
 
 The Attributes Dictionary can include these types as value:
 
-* NSNumber (bools will be "yes" and "no", for other numbers it will be -[NSString stringValue]
+* NSNumber (bools will be "yes" and "no", for other numbers it will be -[NSNumber stringValue]
 * NSDate (will be encoded using ISO8601 with GMT - e.g. 2011-07-18T17:47:59Z )
 * NSStrings which will be represented literally
 
