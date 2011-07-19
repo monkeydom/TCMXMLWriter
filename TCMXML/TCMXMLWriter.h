@@ -19,7 +19,8 @@ typedef NSUInteger TCMXMLWriterOptions;
 @interface TCMXMLWriter : NSObject {}
 
 @property (nonatomic,retain) NSURL *fileURL;
-@property (readonly) NSString *XMLString;
+@property (readonly) NSString *XMLString; // works for in memory streams and file URLs
+@property (readonly) NSData *XMLData; // works for in memory streams and file URLs
 @property (nonatomic, retain) NSDateFormatter *dateFormatter;
 
 - (id)initWithOptions:(TCMXMLWriterOptions)anOptionField; // stores marshalled stuff in string

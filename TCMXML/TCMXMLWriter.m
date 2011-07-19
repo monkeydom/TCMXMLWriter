@@ -329,13 +329,18 @@
 	I_currentTagHasContent = YES;
 }
 
-- (NSString *)XMLString {
-	NSData *outputData = nil;
+- (NSData *)XMLData {
+	NSData *result = nil;
 	if (self.fileURL) {
-		outputData = [NSData dataWithContentsOfURL:self.fileURL];
+		result = [NSData dataWithContentsOfURL:self.fileURL options:NSDataReadingMappedIfSafe error:NULL];
 	} else {
-		outputData = [I_outputStream propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
+		result = [I_outputStream propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
 	}
+	return result;
+}
+
+- (NSString *)XMLString {
+	NSData *outputData = self.XMLData;
 	return [[[NSString alloc] initWithData:outputData encoding:NSUTF8StringEncoding] autorelease];
 }
 
