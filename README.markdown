@@ -11,6 +11,10 @@
 * Mac OS X 10.6.8 or higher, 64-bit only
 * will probably be upped to Lion + iOS 5.0 soon
 
+## License
+
+* [MIT](http://www.opensource.org/licenses/mit-license.php)
+
 ## Usage
 
 You need to include the TCMXMLWriter.h/m in your project.
