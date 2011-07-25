@@ -332,7 +332,7 @@
 - (NSData *)XMLData {
 	NSData *result = nil;
 	if (self.fileURL) {
-		result = [NSData dataWithContentsOfURL:self.fileURL options:NSDataReadingMappedIfSafe error:NULL];
+		result = [NSData dataWithContentsOfURL:self.fileURL options:0 error:NULL];
 	} else {
 		result = [I_outputStream propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
 	}
