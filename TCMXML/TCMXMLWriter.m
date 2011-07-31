@@ -124,6 +124,7 @@
 	}
 	if (needsEscaping) {
 		[escapedString replaceOccurrencesOfString:@"&" withString:@"&amp;" options:NSLiteralSearch range:NSMakeRange(0,escapedString.length)];
+		[escapedString replaceOccurrencesOfString:@"<" withString:@"&lt;" options:NSLiteralSearch range:NSMakeRange(0,escapedString.length)];
 		[escapedString replaceOccurrencesOfString:@"\"" withString:@"&quot;" options:NSLiteralSearch range:NSMakeRange(0,escapedString.length)];
 		[self writeString:escapedString];
 		[escapedString release];
