@@ -100,7 +100,7 @@ static NSString * const kBlockKey = @"block";
 		[writer instructXML];
 		[writer tag:@"parent" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"http://poop.la/parent",@"xmlns", nil] contentBlock:^{
 			NSDictionary *attributeDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:@"abc",@"alphabet",[NSNumber numberWithBool:NO],@"boolean", nil];
-			for (int i = 0; i<10000; i++) {
+			for (int i = 0; i<100000; i++) {
 				[writer tag:@"item" attributes:attributeDictionary contentBlock:^{
 					NSNumber *numberI = [[NSNumber alloc] initWithInt:i];
 					NSDictionary *innerAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:numberI,@"index", nil];
