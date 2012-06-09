@@ -8,7 +8,7 @@
 
 #import "TCMXMLWriter.h"
 
-#define SHOULDPRETTYPRINT (I_writerOptions & TCMXMLWriterOptionPrettyPrinted)
+#define SHOULDPRETTYPRINT (_writerOptions & TCMXMLWriterOptionPrettyPrinted)
 
 @interface TCMXMLWriter ()
 @property BOOL currentTagHasContent;
@@ -23,23 +23,23 @@
 
 @implementation TCMXMLWriter
 
-@synthesize writerOptions = I_writerOptions;
-@synthesize outputStream  = I_outputStream;
-@synthesize elementNameStackArray = I_elementNameStackArray;
-@synthesize indentationString = I_indentationString;
-@synthesize currentTagHasContent = I_currentTagHasContent;
-@synthesize dateFormatter = I_dateFormatter;
+@synthesize writerOptions = _writerOptions;
+@synthesize outputStream  = _outputStream;
+@synthesize elementNameStackArray = _elementNameStackArray;
+@synthesize indentationString = _indentationString;
+@synthesize currentTagHasContent = _currentTagHasContent;
+@synthesize dateFormatter = _dateFormatter;
 
-@synthesize fileURL = I_fileURL;
+@synthesize fileURL = _fileURL;
 
 - (id)initWithOptions:(TCMXMLWriterOptions)anOptionField {
 	if ((self = [super init])) {
-		I_elementNameStackArray = [NSMutableArray new];
+		_elementNameStackArray = [NSMutableArray new];
 		self.writerOptions = anOptionField;
-		I_indentationString = [NSMutableString new];
-		I_dateFormatter = [NSDateFormatter new];
-		[I_dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-		[I_dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
+		_indentationString = [NSMutableString new];
+		_dateFormatter = [NSDateFormatter new];
+		[_dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+		[_dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
 	}
 	return self;
 }
@@ -90,9 +90,9 @@
 			UInt8 *bytes = (UInt8 *)CFDataGetBytePtr(dataRef);
 			UInt8 *endOfBytes = bytes + CFDataGetLength(dataRef);
 			do {
-				NSInteger writtenLength = [I_outputStream write:bytes maxLength:endOfBytes-bytes];
+				NSInteger writtenLength = [_outputStream write:bytes maxLength:endOfBytes-bytes];
 				if (writtenLength == -1 || writtenLength == 0) {
-					NSLog(@"stream error occured: %@", [I_outputStream streamError]);
+					NSLog(@"stream error occured: %@", [_outputStream streamError]);
 					break;
 				}
 				bytes += writtenLength;
@@ -110,7 +110,7 @@
 		escapedString = [anAttributeValue mutableCopy];
 	} else if ([anAttributeValue isKindOfClass:[NSDate class]]) {
 		needsEscaping = NO;
-		string = [I_dateFormatter stringFromDate:anAttributeValue];
+		string = [_dateFormatter stringFromDate:anAttributeValue];
 	} else if ([anAttributeValue isKindOfClass:[NSNumber class]]) {
 		NSNumber *value = (NSNumber *)anAttributeValue;
 		needsEscaping = NO;
@@ -153,7 +153,7 @@
 		[self writeAttributeValueEscaped:value];
 		[self writeString:@"\""];
 	};
-	if (I_writerOptions & TCMXMLWriterOptionOrderedAttributes) {
+	if (_writerOptions & TCMXMLWriterOptionOrderedAttributes) {
 		NSMutableArray *sortedAttributeKeys = [[anAttributeDictionary allKeys] mutableCopy];
 		[sortedAttributeKeys sortUsingSelector:@selector(caseInsensitiveCompare:)];
 		for (NSString *key in sortedAttributeKeys) {
@@ -197,7 +197,7 @@
 
 - (void)openTag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary hasDirectContent:(BOOL)hasDirectContent {
 	if (SHOULDPRETTYPRINT) {
-		[self writeString:I_indentationString];
+		[self writeString:_indentationString];
 	}
 	[self writeString:@"<"];
 	[self writeString:aTagName];
@@ -207,8 +207,8 @@
 	if (SHOULDPRETTYPRINT) {
 		if (!hasDirectContent) [self writeString:@"\n"];
 	}
-	[I_indentationString appendString:@"\t"];
-	I_currentTagHasContent = NO;
+	[_indentationString appendString:@"\t"];
+	_currentTagHasContent = NO;
 }
 
 - (void)openTag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary {
@@ -217,9 +217,9 @@
 
 - (void)closeLastTag {
 	NSString *tagName = [self.elementNameStackArray lastObject];
-	[I_indentationString deleteCharactersInRange:NSMakeRange(I_indentationString.length-1,1)];
+	[_indentationString deleteCharactersInRange:NSMakeRange(_indentationString.length-1,1)];
 	if (SHOULDPRETTYPRINT) {
-		[self writeString:I_indentationString];
+		[self writeString:_indentationString];
 	}
 	[self writeString:@"</"];
 	[self writeString:tagName];
@@ -244,11 +244,11 @@
 
 - (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentText:(NSString *)aContentText {
 	[self openTag:aTagName attributes:anAttributeDictionary hasDirectContent:YES];
-	NSUInteger oldOptions = I_writerOptions;
-	I_writerOptions = oldOptions & (~TCMXMLWriterOptionPrettyPrinted);
+	NSUInteger oldOptions = _writerOptions;
+	_writerOptions = oldOptions & (~TCMXMLWriterOptionPrettyPrinted);
 	[self text:aContentText];
 	[self closeLastTag];
-	I_writerOptions = oldOptions;
+	_writerOptions = oldOptions;
 	if (SHOULDPRETTYPRINT) {
 		[self writeString:@"\n"];
 	}
@@ -256,11 +256,11 @@
 
 - (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentCDATA:(NSString *)aContentCDATA {
 	[self openTag:aTagName attributes:anAttributeDictionary hasDirectContent:YES];
-	NSUInteger oldOptions = I_writerOptions;
-	I_writerOptions = oldOptions & (~TCMXMLWriterOptionPrettyPrinted);
+	NSUInteger oldOptions = _writerOptions;
+	_writerOptions = oldOptions & (~TCMXMLWriterOptionPrettyPrinted);
 	[self cdata:aContentCDATA];
 	[self closeLastTag];
-	I_writerOptions = oldOptions;
+	_writerOptions = oldOptions;
 	if (SHOULDPRETTYPRINT) {
 		[self writeString:@"\n"];
 	}
@@ -268,7 +268,7 @@
 
 - (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary {
 	if (SHOULDPRETTYPRINT) {
-		[self writeString:I_indentationString];
+		[self writeString:_indentationString];
 	}
 	[self writeString:@"<"];
 	[self writeString:aTagName];
@@ -281,7 +281,7 @@
 
 - (void)comment:(NSString *)aCommentContent {
 	if (SHOULDPRETTYPRINT) {
-		[self writeString:I_indentationString];
+		[self writeString:_indentationString];
 	}	
 	[self writeString:@"<!-- "];
 	[self writeString:aCommentContent];
@@ -294,10 +294,10 @@
 
 - (void)text:(NSString *)aTextString {
 	if (SHOULDPRETTYPRINT) {
-		[self writeString:I_indentationString];
+		[self writeString:_indentationString];
 	}	
 	[self writeStringXMLEscaped:aTextString];
-	I_currentTagHasContent = YES;
+	_currentTagHasContent = YES;
 	if (SHOULDPRETTYPRINT) {
 		[self writeString:@"\n"];
 	}
@@ -305,12 +305,12 @@
 
 - (void)xml:(NSString *)anXMLSnippet {
 	[self writeString:anXMLSnippet];
-	I_currentTagHasContent = YES;
+	_currentTagHasContent = YES;
 }
 
 - (void)cdata:(NSString *)aCDataString {
 	if (SHOULDPRETTYPRINT) {
-		[self writeString:I_indentationString];
+		[self writeString:_indentationString];
 	}	
 	[self writeString:@"<![CDATA["];
 	
@@ -327,7 +327,7 @@
 	if (SHOULDPRETTYPRINT) {
 		[self writeString:@"\n"];
 	}
-	I_currentTagHasContent = YES;
+	_currentTagHasContent = YES;
 }
 
 - (NSData *)XMLData {
@@ -335,7 +335,7 @@
 	if (self.fileURL) {
 		result = [NSData dataWithContentsOfURL:self.fileURL options:0 error:NULL];
 	} else {
-		result = [I_outputStream propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
+		result = [_outputStream propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
 	}
 	return result;
 }
