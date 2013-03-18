@@ -44,6 +44,8 @@ static NSString * const kBlockKey = @"block";
 - (void)setupContent {
 	[self addBlock:^{
 		TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:TCMXMLWriterOptionPrettyPrinted | TCMXMLWriterOptionPrettyBOOL];
+		writer.boolNOValue = @"false";
+		writer.boolYESValue = @"true";
 		[writer instruct:@"xml" attributes:@{@"version": @"1.0",@"encoding": @"UTF-8"}];
 		[writer tag:@"loanDatabase" attributes:nil contentBlock:^{
 			[writer tag:@"loans" attributes:nil contentBlock:^{
