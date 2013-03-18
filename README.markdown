@@ -17,9 +17,9 @@
 
 ## Usage
 
-You need to include the TCMXMLWriter.h/m in your project.
+You need to include the `TCMXMLWriter.h/m` in your project.
 
-After that you initialize your TCMXMLWriter with either nothing (will write to memory) a file URL (will write as a stream to that URL) or a stream it will write to.
+After that you initialize your `TCMXMLWriter` with either nothing (will write to memory) a file URL (will write as a stream to that URL) or a stream it will write to.
 
 This is a example generating KML of New York:
 
@@ -38,13 +38,17 @@ This is a example generating KML of New York:
 	}];
 
 
-The Attributes Dictionary can include these types as value:
+The attributes dictionary can include these types as value:
 
-* NSNumber (bools will be "yes" and "no", for other numbers it will be -[NSNumber stringValue]
+* NSNumber 
+	* `-[NSNumber stringValue]` 
+	* when `TCMXMLWriterOptionPrettyBOOL` is specified, then BOOLs will be replaced with `-boolYESValue` and `-boolNoValue`, defaults to @"yes" and @"no"
 * NSDate (will be encoded using ISO8601 with GMT - e.g. 2011-07-18T17:47:59Z )
 * NSStrings which will be represented literally
 
-For more api see the TCMXMLWriter.h
+When `TCMXMLWriterOptionOrderedAttributes` is specified, the attributes will in -caseInsensitiveCompare: order instead of the random order defined by the `NSDictionary`.
+
+For more api see the `TCMXMLWriter.h`
 
 ## Acknowledgements
 * greatly inspired by the [ruby XML Builder](http://rubyforge.org/projects/builder/) framework
