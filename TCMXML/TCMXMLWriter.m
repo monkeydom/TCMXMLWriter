@@ -160,7 +160,7 @@
 		NSMutableArray *sortedAttributeKeys = [[anAttributeDictionary allKeys] mutableCopy];
 		[sortedAttributeKeys sortUsingSelector:@selector(caseInsensitiveCompare:)];
 		for (NSString *key in sortedAttributeKeys) {
-			writerBlock(key, [anAttributeDictionary objectForKey:key], NULL);
+			writerBlock(key, anAttributeDictionary[key], NULL);
 		}
 		[sortedAttributeKeys release];
 	} else {
@@ -169,20 +169,20 @@
 }
 
 - (void)instructXML {
-	[self instruct:@"xml" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"1.0",@"version",@"UTF-8",@"encoding", nil]];
+	[self instruct:@"xml" attributes:@{@"version": @"1.0",@"encoding": @"UTF-8"}];
 }
 
 - (void)instructXMLStandalone {
-	[self instruct:@"xml" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"1.0",@"version",@"UTF-8",@"encoding",@"yes",@"standalone", nil]];
+	[self instruct:@"xml" attributes:@{@"version": @"1.0",@"encoding": @"UTF-8",@"standalone": @"yes"}];
 }
 
 - (void)instruct:(NSString *)anInstructionName attributes:(NSDictionary *)anAttributeDictionary {
 	[self writeString:@"<?"];
 	[self writeString:anInstructionName];
-	if ([anAttributeDictionary objectForKey:@"version"]) {
+	if (anAttributeDictionary[@"version"]) {
 		// special case - version needs to be first
 		NSMutableDictionary *tempDictionary = [NSMutableDictionary new];
-		[tempDictionary setObject:[anAttributeDictionary objectForKey:@"version"] forKey:@"version"];
+		tempDictionary[@"version"] = anAttributeDictionary[@"version"];
 		[self writeAttributes:tempDictionary];
 		[tempDictionary addEntriesFromDictionary:anAttributeDictionary];
 		[tempDictionary removeObjectForKey:@"version"];

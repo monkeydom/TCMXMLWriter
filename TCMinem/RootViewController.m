@@ -44,10 +44,10 @@ static NSString * const kBlockKey = @"block";
 - (void)setupContent {
 	[self addBlock:^{
 		TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:TCMXMLWriterOptionPrettyPrinted | TCMXMLWriterOptionPrettyBOOL];
-		[writer instruct:@"xml" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"1.0",@"version",@"UTF-8",@"encoding", nil]];
+		[writer instruct:@"xml" attributes:@{@"version": @"1.0",@"encoding": @"UTF-8"}];
 		[writer tag:@"loanDatabase" attributes:nil contentBlock:^{
 			[writer tag:@"loans" attributes:nil contentBlock:^{
-				[writer tag:@"loan" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"loan-123124",@"id",@"item-1231",@"itemID",@"friend-111",@"friendID", [NSNumber numberWithBool:NO], @"no",[NSNumber numberWithBool:YES], @"yes", nil] contentBlock:^{
+				[writer tag:@"loan" attributes:@{@"id": @"loan-123124",@"itemID": @"item-1231",@"friendID": @"friend-111", @"no": @NO,@"yes": @YES} contentBlock:^{
 					[writer text:@"This item has some content text!"];
 				}];
 			}];
@@ -71,7 +71,7 @@ static NSString * const kBlockKey = @"block";
 	[self addBlock:^{
 		TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:TCMXMLWriterOptionPrettyPrinted];
 		[writer instructXML];
-		[writer tag:@"kml" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"http://www.opengis.net/kml/2.2",@"xmlns", nil] contentBlock:^{
+		[writer tag:@"kml" attributes:@{@"xmlns": @"http://www.opengis.net/kml/2.2"} contentBlock:^{
 			[writer tag:@"Document" attributes:nil contentBlock:^{
 				[writer tag:@"Placemark" attributes:nil contentBlock:^{
 					[writer tag:@"name" attributes:nil contentText:@"NYC"];
@@ -93,8 +93,8 @@ static NSString * const kBlockKey = @"block";
 		NSLog(@"auf gehts %s", __FUNCTION__);
 		TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:TCMXMLWriterOptionPrettyPrinted | TCMXMLWriterOptionPrettyBOOL fileURL:fileURL];
 		[writer instructXML];
-		[writer tag:@"parent" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"http://poop.la/parent",@"xmlns", nil] contentBlock:^{
-			NSDictionary *attributeDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:@"abc",@"alphabet",[NSNumber numberWithBool:NO],@"boolean", nil];
+		[writer tag:@"parent" attributes:@{@"xmlns": @"http://poop.la/parent"} contentBlock:^{
+			NSDictionary *attributeDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:@"abc",@"alphabet",@NO,@"boolean", nil];
 			for (int i = 0; i<100000; i++) {
 				[writer tag:@"item" attributes:attributeDictionary contentBlock:^{
 					NSNumber *numberI = [[NSNumber alloc] initWithInt:i];
@@ -122,15 +122,15 @@ static NSString * const kBlockKey = @"block";
 }
 
 - (void)addBlock:(void (^)(void))aBlock withTitle:(NSString *)aTitle {
-	[contentArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:aTitle,kTitleKey,[[aBlock copy] autorelease],kBlockKey, nil]];
+	[contentArray addObject:@{kTitleKey: aTitle,kBlockKey: [[aBlock copy] autorelease]}];
 }
 
 - (void (^)(void))blockAtIndex:(NSUInteger)anIndex {
-	return (void (^)(void))[[contentArray objectAtIndex:anIndex] objectForKey:kBlockKey];
+	return (void (^)(void))contentArray[anIndex][kBlockKey];
 }
 
 - (NSString *)titleAtIndex:(NSUInteger)anIndex {
-	return [[contentArray objectAtIndex:anIndex] objectForKey:kTitleKey];
+	return contentArray[anIndex][kTitleKey];
 }
 
 
