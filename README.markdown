@@ -25,13 +25,13 @@ This is a example generating KML of New York:
 
 	TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:TCMXMLWriterOptionPrettyPrinted];
 	[writer instructXML];
-	[writer tag:@"kml" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"http://www.opengis.net/kml/2.2",@"xmlns", nil] contentBlock:^{
-		[writer tag:@"Document" attributes:nil contentBlock:^{
-			[writer tag:@"Placemark" attributes:nil contentBlock:^{
-				[writer tag:@"name" attributes:nil contentText:@"NYC"];
-				[writer tag:@"description" attributes:nil contentText:@"New York City"];
-				[writer tag:@"Point" attributes:nil contentBlock:^{
-					[writer tag:@"coordinates" attributes:nil contentText:@"-74.006393,40.714172,0"];
+	[writer tag:@"kml" attributes:@{@"xmlns" : @"http://www.opengis.net/kml/2.2"} contentBlock:^{
+		[writer tag:@"Document" contentBlock:^{
+			[writer tag:@"Placemark" contentBlock:^{
+				[writer tag:@"name" contentText:@"NYC"];
+				[writer tag:@"description" contentText:@"New York City"];
+				[writer tag:@"Point" contentBlock:^{
+					[writer tag:@"coordinates" contentText:@"-74.006393,40.714172,0"];
 				}];
 			}];
 		}];

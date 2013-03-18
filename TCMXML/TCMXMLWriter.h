@@ -39,6 +39,7 @@ typedef NSUInteger TCMXMLWriterOptions;
 
 // asynchronous tags
 - (void)openTag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary;
+- (void)openTag:(NSString *)aTagName; // attributeless
 - (void)closeLastTag;
 - (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary; // contentless
 
@@ -49,6 +50,13 @@ typedef NSUInteger TCMXMLWriterOptions;
 - (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentXML:(NSString *)aContentXML;
 - (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentText:(NSString *)aContentText;
 - (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary contentCDATA:(NSString *)aContentCDATA;
+
+// shortcuts for attributeless tags
+- (void)tag:(NSString *)aTagName contentBlock:(void (^)(void))aContentBlock;
+- (void)tag:(NSString *)aTagName contentXML:(NSString *)aContentXML;
+- (void)tag:(NSString *)aTagName contentText:(NSString *)aContentText;
+- (void)tag:(NSString *)aTagName contentCDATA:(NSString *)aContentCDATA;
+
 
 // content
 - (void)text:(NSString *)aTextString;

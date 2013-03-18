@@ -218,6 +218,11 @@
 	[self openTag:aTagName attributes:anAttributeDictionary hasDirectContent:NO];
 }
 
+- (void)openTag:(NSString *)aTagName {
+	[self openTag:aTagName attributes:nil];
+}
+
+
 - (void)closeLastTag {
 	NSString *tagName = [self.elementNameStackArray lastObject];
 	[_indentationString deleteCharactersInRange:NSMakeRange(_indentationString.length-1,1)];
@@ -268,6 +273,22 @@
 		[self writeString:@"\n"];
 	}
 }
+
+// shortcuts
+- (void)tag:(NSString *)aTagName contentBlock:(void (^)(void))aContentBlock {
+	[self tag:aTagName attributes:nil contentBlock:aContentBlock];
+}
+- (void)tag:(NSString *)aTagName contentXML:(NSString *)aContentXML {
+	[self tag:aTagName attributes:nil contentXML:aContentXML];
+}
+- (void)tag:(NSString *)aTagName contentText:(NSString *)aContentText {
+	[self tag:aTagName attributes:nil contentText:aContentText];
+}
+- (void)tag:(NSString *)aTagName contentCDATA:(NSString *)aContentCDATA {
+	[self tag:aTagName attributes:nil contentCDATA:aContentCDATA];
+}
+
+
 
 - (void)tag:(NSString *)aTagName attributes:(NSDictionary *)anAttributeDictionary {
 	if (SHOULDPRETTYPRINT) {

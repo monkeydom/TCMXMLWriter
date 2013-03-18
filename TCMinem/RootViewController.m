@@ -47,20 +47,20 @@ static NSString * const kBlockKey = @"block";
 		writer.boolNOValue = @"false";
 		writer.boolYESValue = @"true";
 		[writer instruct:@"xml" attributes:@{@"version": @"1.0",@"encoding": @"UTF-8"}];
-		[writer tag:@"loanDatabase" attributes:nil contentBlock:^{
-			[writer tag:@"loans" attributes:nil contentBlock:^{
+		[writer tag:@"loanDatabase" contentBlock:^{
+			[writer tag:@"loans" contentBlock:^{
 				[writer tag:@"loan" attributes:@{@"id": @"loan-123124",@"itemID": @"item-1231",@"friendID": @"friend-111", @"no": @NO,@"yes": @YES} contentBlock:^{
 					[writer text:@"This item has some content text!"];
 				}];
 			}];
-			[writer tag:@"items" attributes:nil contentBlock:^{
-				[writer tag:@"item" attributes:nil contentBlock:^{
-					[writer tag:@"ImageData" attributes:nil contentBlock:^{
+			[writer tag:@"items" contentBlock:^{
+				[writer tag:@"item" contentBlock:^{
+					[writer tag:@"ImageData" contentBlock:^{
 						[writer cdata:@"This is quite literally a end]]> cdata ]]> problem"];
 					}];
 				}];
 			}];
-			[writer tag:@"friends" attributes:nil contentBlock:^{
+			[writer tag:@"friends" contentBlock:^{
 				
 			}];
 		}];
@@ -74,12 +74,12 @@ static NSString * const kBlockKey = @"block";
 		TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:TCMXMLWriterOptionPrettyPrinted];
 		[writer instructXML];
 		[writer tag:@"kml" attributes:@{@"xmlns": @"http://www.opengis.net/kml/2.2"} contentBlock:^{
-			[writer tag:@"Document" attributes:nil contentBlock:^{
-				[writer tag:@"Placemark" attributes:nil contentBlock:^{
-					[writer tag:@"name" attributes:nil contentText:@"NYC"];
-					[writer tag:@"description" attributes:nil contentText:@"New York City"];
-					[writer tag:@"Point" attributes:nil contentBlock:^{
-						[writer tag:@"coordinates" attributes:nil contentText:@"-74.006393,40.714172,0"];
+			[writer tag:@"Document" contentBlock:^{
+				[writer tag:@"Placemark" contentBlock:^{
+					[writer tag:@"name" contentText:@"NYC"];
+					[writer tag:@"description" contentText:@"New York City"];
+					[writer tag:@"Point" contentBlock:^{
+						[writer tag:@"coordinates" contentText:@"-74.006393,40.714172,0"];
 					}];
 				}];
 			}];

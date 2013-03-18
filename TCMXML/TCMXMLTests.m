@@ -15,24 +15,24 @@
 - (void)testInMemory {
 	
 	TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:TCMXMLWriterOptionOrderedAttributes | TCMXMLWriterOptionPrettyPrinted];
-	[writer instruct:@"xml" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"1.0",@"version",@"UTF-8",@"encoding", nil]];
-	[writer tag:@"loanDatabase" attributes:nil contentBlock:^{
-		[writer tag:@"loans" attributes:nil contentBlock:^{
-			[writer tag:@"loan" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"loan-123124",@"id",@"item-1231",@"itemID",@"friend-111",@"friendID", nil] contentBlock:^{
+	[writer instruct:@"xml" attributes:@{@"version": @"1.0",@"encoding": @"UTF-8"}];
+	[writer tag:@"loanDatabase" contentBlock:^{
+		[writer tag:@"loans" contentBlock:^{
+			[writer tag:@"loan" attributes:@{@"id": @"loan-123124",@"itemID": @"item-1231",@"friendID": @"friend-111"} contentBlock:^{
 				[writer text:@"This item has some content text!"];
 			}];
-			[writer tag:@"loan" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"loan-123125",@"id",@"item-1231",@"itemID",@"friend-111",@"friendID",[NSNumber numberWithBool:NO], @"no",[NSNumber numberWithBool:YES], @"yes", nil] contentText:@"This item has some direct content text!"];
+			[writer tag:@"loan" attributes:@{@"id": @"loan-123125",@"itemID": @"item-1231",@"friendID": @"friend-111",@"no": @NO,@"yes": @YES} contentText:@"This item has some direct content text!"];
 			for (int i=0; i<10; i++) {
-				[writer tag:@"loan" attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Loan/p%d",i],@"id",[NSDate date],@"dueDate",[NSNumber numberWithInt:i],@"someNumber",[NSNumber numberWithFloat:(float)i/7.0],@"someFloat", nil]];
+				[writer tag:@"loan" attributes:@{@"id": [NSString stringWithFormat:@"Loan/p%d",i],@"dueDate": [NSDate date],@"someNumber": @(i),@"someFloat": [NSNumber numberWithFloat:(float)i/7.0]}];
 			}
 		}];
-		[writer tag:@"items" attributes:nil contentBlock:^{
-			[writer tag:@"item" attributes:nil contentBlock:^{
-				[writer tag:@"ImageData" attributes:nil contentCDATA:@"This is quite literally a end]]> cdata ]]> problem"];
+		[writer tag:@"items" contentBlock:^{
+			[writer tag:@"item" contentBlock:^{
+				[writer tag:@"ImageData" contentCDATA:@"This is quite literally a end]]> cdata ]]> problem"];
 			}];
 		}];
 		[writer comment:@"Some comment about \"friends\" -- you know -"];
-		[writer tag:@"friends" attributes:nil contentBlock:^{
+		[writer tag:@"friends" contentBlock:^{
 			
 		}];
 	}];
@@ -49,7 +49,7 @@
 
 - (void)testAttributeEscaping {
 	TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:0];
-	[writer tag:@"img" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"http://blah.to/foo&bar=\"foo\"",@"href", nil]];
+	[writer tag:@"img" attributes:@{@"href": @"http://blah.to/foo&bar=\"foo\""}];
 	STAssertEqualObjects(writer.XMLString,@"<img href=\"http://blah.to/foo&amp;bar=&quot;foo&quot;\"/>" , @"Attributes haven't been escaped right");
 	[writer release];
 }
@@ -63,7 +63,7 @@
 
 - (void)testInstruct {
 	TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:0];
-	[writer instruct:@"xml" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"1.0",@"version",@"UTF-8",@"encoding", nil]];
+	[writer instruct:@"xml" attributes:@{@"version": @"1.0",@"encoding": @"UTF-8"}];
 	STAssertEqualObjects(writer.XMLString,@"<?xml version=\"1.0\" encoding=\"UTF-8\"?>" , @"Instruct failed");
 	[writer release];
 }
