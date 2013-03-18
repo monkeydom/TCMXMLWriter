@@ -12,16 +12,19 @@
 
 enum {
 	TCMXMLWriterOptionPrettyPrinted = 1UL << 0,
-	TCMXMLWriterOptionOrderedAttributes = 1UL << 1 // mainly for unit testing to get reproducible results, but can also be helpful otherwise for stable results
+	TCMXMLWriterOptionOrderedAttributes = 1UL << 1, // mainly for unit testing to get reproducible results, but can also be helpful otherwise for stable results
+	TCMXMLWriterOptionPrettyBOOL = 1UL << 2 // prints BOOLEAN NSNumbers as boolYESValue and boolNOValue values - default is "yes" and "no" 
 };
 typedef NSUInteger TCMXMLWriterOptions;
 
 @interface TCMXMLWriter : NSObject {}
 
-@property (nonatomic,retain) NSURL *fileURL;
+@property (nonatomic,strong) NSURL *fileURL;
 @property (readonly) NSString *XMLString; // works for in memory streams and file URLs
 @property (readonly) NSData *XMLData; // works for in memory streams and file URLs
-@property (nonatomic, retain) NSDateFormatter *dateFormatter;
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
+@property (nonatomic, strong) NSString *boolYESValue;
+@property (nonatomic, strong) NSString *boolNOValue;
 
 - (id)initWithOptions:(TCMXMLWriterOptions)anOptionField; // stores marshalled stuff in string
 - (id)initWithOptions:(TCMXMLWriterOptions)anOptionField fileURL:(NSURL *)aFileURL;

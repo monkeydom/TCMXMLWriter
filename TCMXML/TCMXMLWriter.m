@@ -9,6 +9,7 @@
 #import "TCMXMLWriter.h"
 
 #define SHOULDPRETTYPRINT (_writerOptions & TCMXMLWriterOptionPrettyPrinted)
+#define SHOULDPRETTYBOOL  (_writerOptions & TCMXMLWriterOptionPrettyBOOL)
 
 @interface TCMXMLWriter ()
 @property BOOL currentTagHasContent;
@@ -38,6 +39,8 @@
 		self.writerOptions = anOptionField;
 		_indentationString = [NSMutableString new];
 		_dateFormatter = [NSDateFormatter new];
+		_boolNOValue = @"no";
+		_boolYESValue = @"yes";
 		[_dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
 		[_dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
 	}
@@ -114,10 +117,10 @@
 	} else if ([anAttributeValue isKindOfClass:[NSNumber class]]) {
 		NSNumber *value = (NSNumber *)anAttributeValue;
 		needsEscaping = NO;
-		if (value == (NSNumber *)kCFBooleanTrue) {
-			string = @"yes";
-		} else if (value == (NSNumber *)kCFBooleanFalse) {
-			string = @"no";
+		if (value == (NSNumber *)kCFBooleanTrue && SHOULDPRETTYBOOL) {
+			string = _boolYESValue;
+		} else if (value == (NSNumber *)kCFBooleanFalse && SHOULDPRETTYBOOL) {
+			string = _boolNOValue;
 		} else {
 			string = [value stringValue];
 		}

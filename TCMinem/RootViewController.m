@@ -43,7 +43,7 @@ static NSString * const kBlockKey = @"block";
 
 - (void)setupContent {
 	[self addBlock:^{
-		TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:TCMXMLWriterOptionPrettyPrinted];
+		TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:TCMXMLWriterOptionPrettyPrinted | TCMXMLWriterOptionPrettyBOOL];
 		[writer instruct:@"xml" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"1.0",@"version",@"UTF-8",@"encoding", nil]];
 		[writer tag:@"loanDatabase" attributes:nil contentBlock:^{
 			[writer tag:@"loans" attributes:nil contentBlock:^{
@@ -91,7 +91,7 @@ static NSString * const kBlockKey = @"block";
 	NSURL *fileURL = [self tempFileURL];
 	[self addBlock:^{
 		NSLog(@"auf gehts %s", __FUNCTION__);
-		TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:TCMXMLWriterOptionPrettyPrinted fileURL:fileURL];
+		TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:TCMXMLWriterOptionPrettyPrinted | TCMXMLWriterOptionPrettyBOOL fileURL:fileURL];
 		[writer instructXML];
 		[writer tag:@"parent" attributes:[NSDictionary dictionaryWithObjectsAndKeys:@"http://poop.la/parent",@"xmlns", nil] contentBlock:^{
 			NSDictionary *attributeDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:@"abc",@"alphabet",[NSNumber numberWithBool:NO],@"boolean", nil];
