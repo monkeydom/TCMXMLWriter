@@ -6,6 +6,13 @@
 //  Copyright 2011 TheCodingMonkeys. All rights reserved.
 //
 
+// this file needs arc - either project wide,
+// or add -fobjc-arc on a per file basis in the compile build phase
+// for a pre arc version go to https://github.com/monkeydom/TCMXMLWriter/tree/295a377f60104afe6d13124cbe6105aaff5c1317
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 #import "TCMXMLWriter.h"
 
 #define SHOULDPRETTYPRINT (_writerOptions & TCMXMLWriterOptionPrettyPrinted)
@@ -13,10 +20,10 @@
 
 @interface TCMXMLWriter ()
 @property BOOL currentTagHasContent;
-@property (nonatomic, retain) NSMutableString *indentationString;
+@property (nonatomic, strong) NSMutableString *indentationString;
 @property TCMXMLWriterOptions writerOptions;
-@property (nonatomic, retain) NSOutputStream *outputStream;
-@property (nonatomic, retain) NSMutableArray *elementNameStackArray;
+@property (nonatomic, strong) NSOutputStream *outputStream;
+@property (nonatomic, strong) NSMutableArray *elementNameStackArray;
 - (void)writeAttributes:(NSDictionary *)anAttributeDictionary;
 - (void)writeString:(NSString *)aString;
 - (void)createAndOpenStream;
@@ -62,12 +69,6 @@
 
 - (void)dealloc {
 	if (self.fileURL) [self.outputStream close];
-	self.outputStream = nil;
-	self.fileURL = nil;
-	self.elementNameStackArray = nil;
-	self.indentationString = nil;
-	self.dateFormatter = nil;
-	[super dealloc];
 }
 
 
@@ -130,7 +131,6 @@
 		[escapedString replaceOccurrencesOfString:@"<" withString:@"&lt;" options:NSLiteralSearch range:NSMakeRange(0,escapedString.length)];
 		[escapedString replaceOccurrencesOfString:@"\"" withString:@"&quot;" options:NSLiteralSearch range:NSMakeRange(0,escapedString.length)];
 		[self writeString:escapedString];
-		[escapedString release];
 	} else {
 		[self writeString:string];
 	}
@@ -144,7 +144,6 @@
 	[escapedString replaceOccurrencesOfString:@"<" withString:@"&lt;"  options:NSLiteralSearch range:NSMakeRange(0,escapedString.length)];
 	[escapedString replaceOccurrencesOfString:@"]]>" withString:@"]]&gt;"  options:NSLiteralSearch range:NSMakeRange(0,escapedString.length)];
 	[self writeString:escapedString];
-	[escapedString release];
 }
 
 - (void)writeAttributes:(NSDictionary *)anAttributeDictionary {
@@ -162,7 +161,6 @@
 		for (NSString *key in sortedAttributeKeys) {
 			writerBlock(key, anAttributeDictionary[key], NULL);
 		}
-		[sortedAttributeKeys release];
 	} else {
 		[anAttributeDictionary enumerateKeysAndObjectsUsingBlock:writerBlock];
 	}
@@ -187,7 +185,6 @@
 		[tempDictionary addEntriesFromDictionary:anAttributeDictionary];
 		[tempDictionary removeObjectForKey:@"version"];
 		[self writeAttributes:tempDictionary];		
-		[tempDictionary release];
 	} else {
 		[self writeAttributes:anAttributeDictionary];
 	}
@@ -342,7 +339,6 @@
 		NSMutableString *escapedString = [aCDataString mutableCopy];
 		[escapedString replaceOccurrencesOfString:@"]]>" withString:@"]]" @"]]><![CDATA[" @">" options:NSLiteralSearch range:NSMakeRange(0,escapedString.length)];
 		[self writeString:escapedString];
-		[escapedString release];
 	} else {
 		[self writeString:aCDataString];
 	}
@@ -366,7 +362,7 @@
 
 - (NSString *)XMLString {
 	NSData *outputData = self.XMLData;
-	return [[[NSString alloc] initWithData:outputData encoding:NSUTF8StringEncoding] autorelease];
+	return [[NSString alloc] initWithData:outputData encoding:NSUTF8StringEncoding];
 }
 
 @end

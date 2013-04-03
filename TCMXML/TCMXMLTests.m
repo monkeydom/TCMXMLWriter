@@ -37,35 +37,30 @@
 		}];
 	}];
 	NSLog(@"result XML: \n%@", writer.XMLString);
-	[writer release];
 }
 
 - (void)testXMLEscaping {
 	TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:0];
 	[writer text:@"abc&de<fghi"];
 	STAssertEqualObjects(writer.XMLString,@"abc&amp;de&lt;fghi" , @"Basics haven't been escaped right");
-	[writer release];
 }
 
 - (void)testAttributeEscaping {
 	TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:0];
 	[writer tag:@"img" attributes:@{@"href": @"http://blah.to/foo&bar=\"foo\""}];
 	STAssertEqualObjects(writer.XMLString,@"<img href=\"http://blah.to/foo&amp;bar=&quot;foo&quot;\"/>" , @"Attributes haven't been escaped right");
-	[writer release];
 }
 
 - (void)testCDATAEscaping {
 	TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:0];
 	[writer cdata:@"Premature ]]> End?"];
 	STAssertEqualObjects(writer.XMLString,@"<![CDATA[Premature ]]]]><![CDATA[> End?]]>" , @"Attributes haven't been escaped right");
-	[writer release];
 }
 
 - (void)testInstruct {
 	TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:0];
 	[writer instruct:@"xml" attributes:@{@"version": @"1.0",@"encoding": @"UTF-8"}];
 	STAssertEqualObjects(writer.XMLString,@"<?xml version=\"1.0\" encoding=\"UTF-8\"?>" , @"Instruct failed");
-	[writer release];
 }
 
 @end

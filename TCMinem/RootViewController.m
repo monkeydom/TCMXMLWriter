@@ -65,7 +65,6 @@ static NSString * const kBlockKey = @"block";
 			}];
 		}];
 		NSLog(@"result XML:n\n%@", writer.XMLString);
-		[writer release];
 	}
 		withTitle:@"Random XML"];
 
@@ -85,7 +84,6 @@ static NSString * const kBlockKey = @"block";
 			}];
 		}];
 		NSLog(@"result XML:\n%@", writer.XMLString);
-		[writer release];
 	}
 		 withTitle:@"New York KML"];
 
@@ -106,25 +104,20 @@ static NSString * const kBlockKey = @"block";
 					[writer tag:@"just_tag" attributes:innerAttributes];
 					[writer tag:@"text_tag" attributes:innerAttributes contentText:@"Some Content Text"];
 					[writer tag:@"cdata_tag" attributes:innerAttributes contentCDATA:@"Some Content CDATA"];
-					[innerAttributes release];
-					[commentString release];
-					[numberI release];
 					}
 				 ];
 			}
 			
-			[attributeDictionary release];
 		}];
 		NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:fileURL.path error:nil];
 		NSLog(@"result lengthInBytes:\n%@", fileAttributes);
-		[writer release];
 	}
 		 withTitle:@"Big Ass XML File Write"];
 
 }
 
 - (void)addBlock:(void (^)(void))aBlock withTitle:(NSString *)aTitle {
-	[contentArray addObject:@{kTitleKey: aTitle,kBlockKey: [[aBlock copy] autorelease]}];
+	[contentArray addObject:@{kTitleKey: aTitle,kBlockKey: [aBlock copy]}];
 }
 
 - (void (^)(void))blockAtIndex:(NSUInteger)anIndex {
@@ -168,7 +161,7 @@ static NSString * const kBlockKey = @"block";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
 
 	// Configure the cell.
@@ -180,9 +173,6 @@ static NSString * const kBlockKey = @"block";
 	[self blockAtIndex:indexPath.row]();
 }
 
-- (void)dealloc {
-    [super dealloc];
-}
 
 - (NSString *)applicationDocumentsDirectory {
     return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];

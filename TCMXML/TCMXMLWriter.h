@@ -20,8 +20,8 @@ typedef NSUInteger TCMXMLWriterOptions;
 @interface TCMXMLWriter : NSObject {}
 
 @property (nonatomic,strong) NSURL *fileURL;
-@property (readonly) NSString *XMLString; // works for in memory streams and file URLs
-@property (readonly) NSData *XMLData; // works for in memory streams and file URLs
+@property (unsafe_unretained, readonly) NSString *XMLString; // works for in memory streams and file URLs
+@property (unsafe_unretained, readonly) NSData *XMLData; // works for in memory streams and file URLs
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (nonatomic, strong) NSString *boolYESValue;
 @property (nonatomic, strong) NSString *boolNOValue;

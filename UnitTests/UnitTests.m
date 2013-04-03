@@ -38,12 +38,10 @@
 	NSURL *outputURL = [self documentURLWithName:[[anURL filePathURL] lastPathComponent]];
 	TCMXMLWriter *writer = [[TCMXMLWriter alloc] initWithOptions:TCMXMLWriterOptionOrderedAttributes fileURL:outputURL];
 	self.xmlWriter = writer;
-	[writer release];
 	
 	NSXMLParser *parser = [[NSXMLParser alloc] initWithContentsOfURL:anURL];
 	parser.delegate = self;
 	[parser parse];
-	[parser release];
 	
 	
 	self.xmlWriter = nil;
@@ -72,7 +70,6 @@
 - (void)parser:(NSXMLParser *)parser foundCDATA:(NSData *)CDATABlock {
 	NSString *cdataString = [[NSString alloc] initWithData:CDATABlock encoding:NSUTF8StringEncoding];
 	[self.xmlWriter cdata:cdataString];
-	[cdataString release];
 }
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)aString {

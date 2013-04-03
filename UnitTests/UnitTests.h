@@ -13,7 +13,7 @@
 	
 }
 
-@property (retain) TCMXMLWriter *xmlWriter;
+@property (strong) TCMXMLWriter *xmlWriter;
 
 - (void)remarshallXMLURL:(NSURL *)anURL;
 
