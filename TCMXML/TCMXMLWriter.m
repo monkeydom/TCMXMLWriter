@@ -40,6 +40,10 @@
 
 @synthesize fileURL = _fileURL;
 
+- (id)init {
+    return [self initWithOptions:0];
+}
+
 - (id)initWithOptions:(TCMXMLWriterOptions)anOptionField {
 	if ((self = [super init])) {
 		_elementNameStackArray = [NSMutableArray new];
