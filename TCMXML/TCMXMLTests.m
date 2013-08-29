@@ -63,4 +63,11 @@
 	STAssertEqualObjects(writer.XMLString,@"<?xml version=\"1.0\" encoding=\"UTF-8\"?>" , @"Instruct failed");
 }
 
+- (void)testBasicInitializer {
+	TCMXMLWriter *writer = [[TCMXMLWriter alloc] init];
+	[writer instructXML];
+	[writer tag:@"theTag" contentText:@"theContent"];
+	STAssertEqualObjects(writer.XMLString,@"<?xml version=\"1.0\" encoding=\"UTF-8\"?><theTag>theContent</theTag>" , @"Instruct failed");
+}
+
 @end
