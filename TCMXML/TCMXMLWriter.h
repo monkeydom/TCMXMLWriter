@@ -8,14 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-#define TCMWriterOptionNoOptions = 0UL;
-
-enum {
+typedef NS_OPTIONS(NSUInteger, TCMXMLWriterOptions)
+{
+    TCMWriterOptionNoOptions = 0UL,
 	TCMXMLWriterOptionPrettyPrinted = 1UL << 0,
 	TCMXMLWriterOptionOrderedAttributes = 1UL << 1, // mainly for unit testing to get reproducible results, but can also be helpful otherwise for stable results
 	TCMXMLWriterOptionPrettyBOOL = 1UL << 2 // prints BOOLEAN NSNumbers as boolYESValue and boolNOValue values - default is "yes" and "no" 
 };
-typedef NSUInteger TCMXMLWriterOptions;
 
 @interface TCMXMLWriter : NSObject {}
 
