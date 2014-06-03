@@ -9,4 +9,6 @@ Pod::Spec.new do |spec|
   spec.source_files = 'TCMXML/TCMXMLWriter.{h,m}'
   spec.framework    = 'Foundation'
   spec.requires_arc = true
+  spec.ios.deployment_target = "6.0"
+  spec.osx.deployment_target = "10.8"
 end
