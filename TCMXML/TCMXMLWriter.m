@@ -40,11 +40,11 @@
 
 @synthesize fileURL = _fileURL;
 
-- (id)init {
+- (instancetype)init {
     return [self initWithOptions:0];
 }
 
-- (id)initWithOptions:(TCMXMLWriterOptions)anOptionField {
+- (instancetype)initWithOptions:(TCMXMLWriterOptions)anOptionField {
 	if ((self = [super init])) {
 		_elementNameStackArray = [NSMutableArray new];
 		self.writerOptions = anOptionField;
@@ -57,14 +57,14 @@
 	}
 	return self;
 }
-- (id)initWithOptions:(TCMXMLWriterOptions)anOptionField fileURL:(NSURL *)aFileURL {
+- (instancetype)initWithOptions:(TCMXMLWriterOptions)anOptionField fileURL:(NSURL *)aFileURL {
 	if ((self = [self initWithOptions:anOptionField])) {
 		self.fileURL = aFileURL;
 	}
 	return self;
 }
 
-- (id)initWithOptions:(TCMXMLWriterOptions)anOptionField outputStream:(NSOutputStream *)anOutputStream {
+- (instancetype)initWithOptions:(TCMXMLWriterOptions)anOptionField outputStream:(NSOutputStream *)anOutputStream {
 	if ((self = [self initWithOptions:anOptionField])) {
 		self.outputStream = anOutputStream;
 	}
